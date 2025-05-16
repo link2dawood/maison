@@ -1,0 +1,83 @@
+
+#int_corps #listDrapeaux{
+	width:1013px;
+}
+#int_corps #listDrapeaux img{
+	position:relative;
+	top:5px;
+}
+#int_corps #listDrapeaux td{
+	width:20%;
+	vertical-align:top;
+}
+#int_corps #salon,#int_corps .bt_out{
+	float:left;
+	vertical-align:top;
+}
+#int_corps .bt_out{
+	width:185px;
+}
+#int_corps #salon th{
+	background-image: url('../images/fond_menu.jpg');
+	background-repeat: repeat-x;
+	background-position: top left;
+	padding-top:3px;
+	font-size:14px;
+	text-align:center;
+	color:white;
+}
+#int_corps #salon #list_connectes{
+	border-right:2px solid #00327C;
+	height:530px;
+	overflow:auto;
+	padding-left:4px;
+	padding-right:4px;
+	width:200px;
+}
+#int_corps #salon .col_g,#int_corps #salon .col_d{
+	vertical-align:top;
+}
+#int_corps #salon .col_d{
+	width:600px;
+}
+#int_corps #salon #fenetre{
+	border:1px solid #00327C;
+	height:380px;
+	overflow:auto;
+	padding:4px;
+}
+#int_corps .formulaire_envoi textarea{
+	background-color:#8FBDFF;
+	font-weight:bolder;
+	color:#143A6F;
+}
+#int_corps h2 img{
+	position:relative;
+	top:6px;
+}
+#int_corps #salon .bt_send_msg{
+	text-align:right;
+	padding-top:3px;
+}
+#int_corps #barre {
+	padding-top:5px;
+	background-color:#00327C;
+	float:left;
+	width:100%;
+}
+/**************************/
+#bulle{
+	width: 160px;
+	display: none;
+	position: absolute;
+	z-index : 1;
+	background-color: #F4F49C;
+	padding: 2px;
+	margin: 2px;
+	border-style: ridge;
+	border-width: 3px;
+	border-color: #F4F49C;
+	font-family: Arial;
+	font-size: 8pt;
+	text-align: center;
+}

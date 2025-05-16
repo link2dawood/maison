@@ -1,0 +1,224 @@
+/* Ce site a été réalisé par www.kosmopolyte.com */
+/* Spécialiste de la création internet et référencement professionnel */
+
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+ul, li {
+	list-style: none;
+}
+
+a {
+	text-decoration: none;
+	font-weight:bolder;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a img {
+	border: none;
+}
+
+hr {
+	height: 1px;
+	border: none;
+	border-top: 1px solid silver;
+}
+h1,#bibliotheque .form_upload .titre{
+	font-size:24px;
+	text-align:center;
+}
+body {
+	font-family: Arial,Trebuchet MS,Tahoma,sans-serif,Verdana;
+	font-size: 12px;
+	color:#01327D;
+}
+#bibliotheque{
+	width:800px;
+	margin:0 auto;
+}
+#bibliotheque h1,#bibliotheque #pagination,#bibliotheque h2,#bibliotheque h3{
+	color:white;
+	font-weight:bold;
+}
+#bibliotheque #pagination .navigation{
+	width:100%;
+}
+#bibliotheque #pagination,#bibliotheque .miniature,#bibliotheque .code,#bibliotheque .zoom,#bibliotheque .lien{
+	text-align:center;
+}
+#bibliotheque #menu{
+	background-color:white;
+	text-align:center;
+	margin-top:7px;
+	margin-bottom:7px;
+}
+#bibliotheque #menu a{
+	color:#EF7227;
+}
+#bibliotheque #menu a:hover{
+	color:#FFAF7F;
+}
+#bibliotheque #pas_de_message{
+	padding-top:80px;
+	text-align:center;
+	font-size:16px;
+	color:white;
+}
+#bibliotheque .form_upload{
+	width:500px;
+	margin:0 auto;
+	text-align:center;
+	color:white;
+	margin-top:60px;
+	border:1px solid white;
+	padding:5px;
+}
+#bibliotheque .form_upload ul li{
+	padding-top:10px;
+}
+#bibliotheque .list_bibliotheque{
+	width:100%;
+	background-color:white;
+	padding:1px;
+}
+#bibliotheque .miniature{
+	width:106px;
+	height:106px;
+	background-color:#BFBFBF;
+}
+#bibliotheque .code{
+	font-weight:bolder;
+	color:grey;
+	font-style:italic;
+}
+#bibliotheque .zoom{
+	
+}
+#bibliotheque .lien{
+	
+}
+/****************************************************/
+#motioncontainer {
+	margin:0 auto; 
+	width: 100%; 
+	height: 100px; 
+	border-bottom:2px solid #00327C;
+}
+
+#motioncontainer a img {
+	border: 1px solid #0069AD;
+}
+
+#motioncontainer a:hover img {
+	border: 1px solid #FDB546; 
+}
+
+#statusdiv {
+	background-color: lightyellow;
+	border: 1px solid gray;
+	padding: 2px;
+	position: absolute; 
+	left: -300px;
+	visibility: hidden;
+}
+
+#motioncontainer a:hover {
+	color: red; 
+}
+#ext_ad #carnet_galerie{
+	width:1000px;
+	margin-left:12px;
+}
+#ext_ad #carnet_galerie .titre,#ext_ad #gestion_galerie .titre,#ext_ad #carnet_video .titre{
+	font-size:18px;
+	text-decoration:underline;
+	font-weight:bolder;
+}
+#ext_ad #carnet_galerie #gestion_galerie{
+	margin:0 auto;
+	padding:7px;
+	width:400px;
+}
+#ext_ad #carnet_commentaire,#ext_ad #carnet_video,#ext_ad #carnet_contenu{
+	float:left;
+}
+#ext_ad #carnet_video{
+	width:326px;
+}
+#ext_ad #carnet_commentaire{
+	padding:5px;
+	width:675px;
+}
+#ext_ad #carnet_commentaire ul li{
+	padding-top:5px;
+}
+#ext_ad #carnet_commentaire h2,#ext_ad #carnet_video h2{
+	font-size:24px;
+}
+#ext_ad #carnet_video .ma_video{
+	background-image:url('../images/bg_carnet_video.png');
+	background-position:top left;
+	background-repeat:no-repeat;
+	width:320px;
+	height:320px;
+	margin-top:5px;
+	margin-left:5px;
+	text-align:center;
+}
+#ext_ad #carnet_video .me_contacter table{
+	width:100%;
+}
+#ext_ad #carnet_video .me_contacter .contact_3 a{
+
+}
+#ext_ad #carnet_video .me_contacter .contact_1 .top_1,#ext_ad #carnet_video .me_contacter .contact_2 .top_1{
+	padding-left:7px;
+	padding-top:7px;
+}
+#ext_ad #carnet_video .me_contacter .contact_3 .top_1{
+	padding-left:7px;
+}
+#ext_ad #carnet_video .me_contacter .contact_1 .ico_1,#ext_ad #carnet_video .me_contacter .contact_1 .ico_2,#ext_ad #carnet_video .me_contacter .contact_1 .ico_3,#ext_ad #carnet_video .me_contacter .contact_2 .ico_1,#ext_ad #carnet_video .me_contacter .contact_2 .ico_2,#ext_ad #carnet_video .me_contacter .contact_2 .ico_3{
+	width:30px;
+}
+#list_carnet{
+	width:100%;
+}
+#list_carnet th{
+	background-image:url(../images/bg_titre.png);
+	background-position:left center;
+	background-repeat:repeat-x;
+	color:#4F4F4F;
+	font-size:16px;
+	font-weight:bolder;
+	padding-left:10px;
+}
+#list_carnet .pseudo{
+	font-weight:bolder;
+}
+#list_carnet .intitule{
+	padding-left:3px;
+	padding-right:3px;
+	text-align:justify;
+}
+#list_carnet .lien,#list_carnet .etat{
+	text-align:center;
+	font-style:italic;
+	font-size:10px;
+}
+#ext_ad #carnet_contenu{
+	padding:5px;
+	width:663px;
+	margin-left:12px;
+	height:500px;
+	overflow:auto;
+}
+#ext_ad #carnet_contenu h2{
+	font-size:20px;
+}

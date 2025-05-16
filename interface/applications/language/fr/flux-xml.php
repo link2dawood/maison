@@ -1,0 +1,38 @@
+<?php
+session_start();
+define('TEXTE_1', 'Echanger votre logement pour les vacances ou d\'hbergement pour des vacances gratuites.');
+define('TEXTE_2', 'Plus de 240 pays sont rpertoris pour 8 choix d\'changes: maison, appartement, chambre etc...');
+define('TEXTE_3', 'Site d\'change de maison et d\'hbergement pour des vacances gratuites');
+define('TEXTE_4', 'Echange de chteau France');
+define('TEXTE_5', 'Vous tes locataire ou propritaire d\'un chteau et vous souhaitez partir en vacances.');
+define('TEXTE_6', 'Echange de manoir France');
+define('TEXTE_7', 'Vous tes locataire ou propritaire d\'un manoir et vous souhaitez partir en vacances.');
+define('TEXTE_8', 'Echange de villa France');
+define('TEXTE_9', 'Vous tes locataire ou propritaire d\'une villa et vous souhaitez partir en vacances.');
+define('TEXTE_10', 'Echange de maison France');
+define('TEXTE_11', 'Vous tes locataire ou propritaire d\'une maison et vous souhaitez partir en vacances.');
+define('TEXTE_12', 'Echange d\'appartement France');
+define('TEXTE_13', 'Vous tes locataire ou propritaire d\'un appartement et vous souhaitez partir en vacances.');
+define('TEXTE_14', 'Echange de chambre France');
+define('TEXTE_15', 'Vous tes locataire ou propritaire d\'une chambre et vous souhaitez partir en vacances.');
+define('TEXTE_16', 'Recevoir  domicile France');
+define('TEXTE_17', 'Vous souhaitez recevoir  domicile des voyageurs (gratuit).');
+define('TEXTE_18', 'Recherche hbergement France');
+define('TEXTE_19', 'Vous recherchez un hbergement gratuit pour vos vacances.');
+define('TEXTE_20', 'Echange de maison, d\'hbergement pour des vacances gratuites et location de vacances');
+define('TEXTE_21', 'Voyager  travers nos articles, dcouvrez nos petites astuces et bons plans pour des voyages d\'un autre genre...');
+define('TEXTE_22', 'Dcouvrez notre rubrique Recommendations, spcialement cre pour vous tenir informer des dernires informations que vous devez possder avant de partir...');
+define('TEXTE_23', 'Lisez et dcouvrez des professions du tourisme vue de l\'intrieur. Tout ce que vous avez toujours voulu connaitre...');
+define('TEXTE_24', 'Tenez-vous informer des dernires mises  jour et nouveauts de notre site.');
+define('TEXTE_25', 'Echange maison et d\'hbergement pour des vacances gratuites: voyager malin... c\'est voyager gratuit!');
+define('TEXTE_26', 'Visitez nos annonces d\'changes de logements et d\'hbergement pour des vacances gratuites du monde entier! Plus de 240 pays au choix...');
+define('TEXTE_27', 'Site de voyage pour des vacances gratuites');
+define('TEXTE_28', 'Voyager malin... c\'est voyager gratuit !');
+define('TEXTE_29', 'Nous sommes dsol mais  l\'heure actuelle, aucune annonce n\'a t valid dans cette rubrique... rssayez un peu plus tard!');
+define('TEXTE_30', 'Type:');
+define('TEXTE_31', 'ville:');
+define('TEXTE_32', 'pays:');
+define('TEXTE_33', 'Priode :');
+define('TEXTE_34', 'au');
+define('TEXTE_35', '');
+?>

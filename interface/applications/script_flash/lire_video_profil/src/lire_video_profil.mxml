@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" creationComplete="init()" xmlns:local="*" width="250" height="250" backgroundGradientAlphas="[1.0, 1.0]" backgroundGradientColors="[#00327C, #00327C]" fontWeight="bold" backgroundColor="#cccccc">
+	<local:visionner id="contener" width="200" height="160" x="25" y="26"  borderColor="#0E0D0D" cornerRadius="0" backgroundColor="#FFFFFF" borderStyle="inset"/>
+	<mx:Button x="25" y="202" label="PLAY" id="bt_play" click="contener.voir()" fillAlphas="[1.0, 1.0]" fillColors="[#840128, #840128, #FF467F, #FF467F]" color="#FFFFFF" width="90" borderColor="#FFFFFF" themeColor="#FFFFFF"/>
+	<mx:Button x="135" y="202" label="STOP" id="bt_stop" click="contener.stopCamera()" fillAlphas="[1.0, 1.0]" fillColors="[#840128, #840128, #FF467F, #FF467F]" color="#FFFFFF" width="90" borderColor="#FFFFFF" themeColor="#FFFFFF"/>
+	<mx:Script>
+        <![CDATA[
+            import mx.controls.Alert;
+            
+            private function init():void {
+                // The FlashVars
+                contener.pseudo_visionner = Application.application.parameters.monFichier;
+                contener.repert = Application.application.parameters.repertoire;
+                contener.initNC();
+                contener.canPublish = true;
+            }
+        ]]>
+    </mx:Script>
+</mx:Application>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"  creationComplete="init()" layout="absolute" width="575" height="250" xmlns:local="*" backgroundColor="#CCCCCC" backgroundGradientAlphas="[1.0, 1.0]" backgroundGradientColors="[#00327C, #00327C]">
+	<local:ActionBouton id="ab"/>
+	<mx:Button x="420" y="20" label="Enregistrer votre message AUDIO" id="bt_rec" fillAlphas="[1.0, 1.0]" fillColors="[#FFFFFF, #FFFFFF, #FFFFFF, #FFFFFF]" color="#FFFFFF" click="ab.enregistrer()" enabled="{ab.canPublish}" width="140" borderColor="#FFFFFF" themeColor="#FFFFFF" height="50" cornerRadius="20" icon="@Embed(source='bt_flash_record.png')"/>
+	<mx:Button x="420" y="104" label="STOP" id="bt_stop" fillAlphas="[1.0, 1.0]" fillColors="[#FFFFFF, #FFFFFF, #FFFFFF, #FFFFFF]" color="#FFFFFF"  click="ab.stopCamera()" enabled="{ab.canPublish}" width="140" borderColor="#FFFFFF" themeColor="#FFFFFF" cornerRadius="20" height="50" icon="@Embed(source='bt_flash_stop.png')"/>
+	<mx:Button x="420" y="187" label="Ecouter votre message" id="bt_ecouter" fillAlphas="[1.0, 1.0]" fillColors="[#FFFFFF, #FFFFFF, #FFFFFF, #FFFFFF]" color="#FFFFFF" click="ab.ecouter()" enabled="{ab.canPublish}" width="140" borderColor="#FFFFFF" themeColor="#FFFFFF" cornerRadius="20" height="50" icon="@Embed(source='bt_flash_ecouter.png')"/>
+
+	<mx:Script>
+        <![CDATA[
+            
+            private function init():void {
+                // The FlashVars
+                ab.pseudo_expediteur = Application.application.parameters.monFichier;
+                ab.rep = Application.application.parameters.repertoire;
+                ab.lancer();
+                ab.canPublish = true;
+            }
+        ]]>
+    </mx:Script>
+	<mx:Text x="22" y="34" text="Click to this button to record your audio message" color="#FFFFFF" fontSize="12" fontFamily="Arial" fontWeight="bold"/>
+	<mx:Text x="22" y="201" text="To play your recorded message, click to this button" color="#FFFFFF" fontFamily="Arial" fontSize="12" fontWeight="bold"/>
+	<mx:Text x="22" y="118" text="Click to this to stop your record" color="#FFFFFF" fontFamily="Arial" fontSize="12" fontWeight="bold"/>
+
+</mx:Application>

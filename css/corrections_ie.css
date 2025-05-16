@@ -1,0 +1,156 @@
+/*****************/
+/* IE CORRECTIF */
+/*****************/
+
+
+#adsense{
+	width:1009px;
+	height:80px;
+	color:white;
+}
+#contenu .monTchat{
+	width:299px;
+	border:1px solid black;
+	height:250px;
+	float:left;
+	background-color:white;
+	overflow:auto;
+	margin-left:1px;
+}
+#contenu .maPub{
+	width:299px;
+	border:1px solid black;
+	height:200px;
+	float:left;
+	background-color:white;
+	margin-left:1px;
+}
+
+#form_messenger {
+	padding:5px;
+	height:513px;
+	width:686px;
+	margin-top:5px;
+	background-color:#00327C;
+}
+#form_messenger .bt_send_message_audio{
+	text-align:center;
+	padding-top:10px;
+	padding-bottom:13px;
+}
+#form_messenger .explicatif_audio{
+	text-align:justify;
+	margin-top:10px;
+	color:white;
+}
+#form_messenger .explicatif_audio_tchat{
+	text-align:justify;
+	margin-top:10px;
+	color:white;
+}
+#form_messenger .explicatif_video{
+	text-align:justify;
+	margin-top:5px;
+	color:white;
+}
+#form_messenger .col_1 .input{
+	width:434px;
+}
+#tableau_listing_annonces{
+	width:680px;
+	margin-top:10px;
+	margin-left:10px;
+}
+#choix_icone ul li{
+	margin-left:18px;
+	display:inline;
+}
+#bloc_boite_messagerie .bloc_dev_boite {
+	height:538px;
+	overflow:auto;
+}
+#bloc_boite_messagerie .info .info_messagerie .texte{
+	text-align:center;
+	margin-top:20px;
+}
+.tableau_listing_annonces_td{
+	width:224px;
+	height:170px;
+}
+#tab_profil .part2 .col_libelle #lib_3{
+	margin-top:60px;
+	padding-bottom:36px;
+}
+#form_messenger  .flash{
+	text-align:center;
+	padding-top:10px;
+	clear:left;
+}
+#tab_profil .part2 .col_libelle{
+	background-color:#CCCCCC;
+	font-weight:bold;
+	padding-top:10px;
+	text-align:center;
+	width:63px;
+	height:320px;
+}
+#tab_profil .part2 .col_info {
+	background-color:white;
+	width:280px;
+	height:330px;
+}
+/*********************************/
+#annonce_messenger_2 img{
+	padding-top:0px;
+}
+#tab_profil .left .commentaire{
+	background-color:white;
+	padding:5px;
+	height:100px;
+	overflow:auto;
+	width:185px;
+}
+/**************************************/
+#espace_membre .mes_contacts_favoris .mes_favoris .fav_1 table .favori_ok div,#espace_membre .mes_contacts_favoris .mes_favoris .fav_1 table .favori_ko div{
+	width:114px;
+	overflow:hidden;
+}
+#espace_membre .mes_contacts_favoris .mes_favoris .fav_1 table .favori_ok  input{
+	margin-top:0px;
+}
+#espace_membre #desincription .texte{
+	font-size:10px;
+	text-align:justify;
+}
+/******************************/
+#iframe_multimedia{
+	width:221px;
+	height:460px;
+	border-color:white;
+}
+#formulaire_depot #area p{
+	width:224px;
+	/*margin-left:4px;*/
+	height:110px;
+	text-align: justify;
+	overflow:auto;
+	border-left:2px solid #828183;
+	border-top:2px solid #828183;
+	color:black;
+	padding:5px;
+}
+#int_corps{
+	background-color:white;
+	margin-left:5px;
+	margin-bottom:5px;
+	width:1003px;
+}
+#int_corps #listDrapeaux{
+	width:1003px;
+}
+#int_corps #barre {
+	background-color:#00327C;
+	float:left;
+	width:100%;
+	padding-top:0px;
+}

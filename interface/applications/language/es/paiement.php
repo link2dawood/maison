@@ -1,0 +1,2 @@
+<?php
+session_start();define('HEADER_TITLE', 'Faites la promotion de vos services');define('HEADER_DESCRIPTION', 'Faites la promotion de vos services en faisant appel  notre rseau publicitaire.');define('HEADER_KEYWORDS', 'rencontre');define('H1_DE_LA_PAGE', 'Espace publicitaire');define('H2_DE_LA_PAGE', 'Activer votre compte');define('TEXTE_OK', 'Flicitation...votre publicit est en ligne !');?>

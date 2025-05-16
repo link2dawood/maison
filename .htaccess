@@ -1,0 +1,74 @@
+#--------------------------------------------------
+# Fichier : .htaccess 
+#--------------------------------------------------
+#Options +FollowSymlinks
+RewriteEngine on
+RewriteBase /
+#
+#--------REDIRECTION DES ALIAS -----------------------------------------------
+RewriteCond %{HTTP_HOST} ^echangesamaison.com/$
+RewriteRule ^(.*)   http://echangesamaison.com/$1  [QSA,L,R=301]
+#--------REECRITURE PAGES LANGUES ANGLAIS---------------------------------
+RewriteRule ^www.vacanceshome.com/en ?langue=en  [QSA,L,R=301]
+#--------REECRITURE PAGES LANGUES ESPAGNOL---------------------------------
+RewriteRule ^www.intercambio-de-casa.com$ ?langue=es  [QSA,L,R=301]
+#--------REECRITURE DES PAGES LISTING-----------------------------------
+RewriteRule ^petites-annonces-echange-maison-1-([0-9]*)-([0-9]*).php$ /petites-annonces-echange-maison.php?type=$1&choix_pays=$2 [L]
+RewriteRule ^petites-annonces-echange-maison-([0-9]*)-([0-9]*)-([0-9]*).php$ /petites-annonces-echange-maison.php?page=$1&type=$2&choix_pays=$3 [L]
+#--------REECRITURE DES PAGES TAGS MOTS CLES-----------------------------------
+RewriteRule ^echange-1-([0-9]*).php$ /echange.php?req=$1 [L]
+RewriteRule ^echange-([0-9]*)-([0-9]*).php$ /echange.php?page=$1&req=$2 [L]
+#--------REECRITURE DE LA RECHERCHE AVANCEE -----------------------------------
+RewriteRule ^recherche-avancee1-([0-9]*)-([0-9]*)-([0-9]*).php$ /recherche-avancee1.php?select_departement=$1&select_echange=$2&select_pays=$3 [L]
+RewriteRule ^recherche-avancee1-([0-9]*)-([0-9]*)-([0-9]*)-([0-9]*).php$ /recherche-avancee1.php?page=$1&select_departement=$2&select_echange=$3&select_pays=$4 [L]
+#--------REECRITURE DES PAGES DEDIES PROFIL EN DETAIL -----------------------------------
+RewriteRule ^profil-([0-9]*).php$ profil.php?id=$1 [L]
+RewriteRule ^profil-([0-9]*)-([0-9]*).php$ profil.php?id=$1&act=$2 [L]
+#--------REECRITURE DEPARTEMENTS FRANCE -----------------------------------
+RewriteRule ^departements-france-([0-9]*).php$ /departements-france.php?type=$1 [L]
+RewriteRule ^departements-guyane-fr-([0-9]*).php$ /departements-guyane-fr.php?type=$1 [L]
+RewriteRule ^departements-maroc-([0-9]*).php$ /departements-maroc.php?type=$1 [L]
+RewriteRule ^departements-algerie-([0-9]*).php$ /departements-algerie.php?type=$1 [L]
+RewriteRule ^departements-allemagne-([0-9]*).php$ /departements-allemagne.php?type=$1 [L]
+RewriteRule ^departements-guadeloupe-([0-9]*).php$ /departements-guadeloupe.php?type=$1 [L]
+#--------REECRITURE CARNET DE VOYAGE -----------------------------------
+RewriteRule ^carnet-de-voyage-([0-9]*).php$ /carnet-de-voyage.php?id_carnet=$1 [L]
+RewriteRule ^carnet-de-voyage-([0-9]*)-([0-9]*).php$ carnet-de-voyage.php?id_carnet=$1&act=$2 [L]
+#--------REECRITURE LISTING YAHOO URLS DEPARTEMENTS TXT-----------------------------------
+RewriteRule ^urllist.txt$ /interface/urllist.php [L]
+RewriteRule ^urllist2.txt$ /interface/urllist1.php [L]
+RewriteRule ^urllist3.txt$ /interface/urllist2.php [L]
+RewriteRule ^urllist4.txt$ /interface/urllist3.php [L]
+RewriteRule ^urllist5.txt$ /interface/urllist4.php [L]
+RewriteRule ^urllist6.txt$ /interface/urllist5.php [L]
+#--------REECRITURE DEPARTEMENTS SITEMAP GOOGLE-----------------------------------
+RewriteRule ^sitemap.xml$ /interface/sitemap.php [L]
+RewriteRule ^sitemap2.xml$ /interface/sitemap1.php [L]
+RewriteRule ^sitemap3.xml$ /interface/sitemap2.php [L]
+RewriteRule ^sitemap4.xml$ /interface/sitemap3.php [L]
+RewriteRule ^sitemap5.xml$ /interface/sitemap4.php [L]
+RewriteRule ^sitemap6.xml$ /interface/sitemap5.php [L]
+#--------REECRITURE DU LISTINGS DES CATEGORIES BLOG -----------------------------------
+RewriteRule ^blog/categorie-([0-9]*).php$ /blog/categorie.php?cat=$1 [L]
+RewriteRule ^blog/article-([0-9]*)-([0-9]*).php$ /blog/article.php?cat=$1&art=$2 [L]
+#--------REECRITURE DES FLUX XML BLOG -----------------------------------
+RewriteRule ^echange-maison.xml$ /interface/flux-xml.php [L]
+#--------REECRITURE LISTING FLUX XML BLOG -----------------------------------
+RewriteRule ^blog-rss.xml$ /blog/blog-rss.php [L]
+#--------REECRITURE TEMPLATE FLUX XML RSS LISTING ANNONCES -----------------------------------
+RewriteRule ^annonces-rss-([0-9]*)-([0-9]*).xml$ /interface/annonces-rss.php?vacanceshome.com=$1&pays=$2 [L]
+#Pages d'erreurs
+RewriteRule ^testfr.php$ testfr.php [L]
+RewriteRule ^fr/?$ fr/index.php [L]
+RewriteRule ^fr/?$ fr/index.php [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule (.*) /404.php
+#
+#AuthUserFile      /home/db5017827985.hosting-data.io /dbs14218084/.htpasswd
+#AuthGroupFile /dev/null
+#AuthName "Accès Restreint"
+#AuthType Basic
+#<Limit GET POST>
+#require valid-user
+#</Limit>

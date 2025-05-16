@@ -1,0 +1,2 @@
+<?php
+session_start();define('HEADER_TITLE', 'Make the promotion of your services');define('HEADER_DESCRIPTION', '');define('HEADER_KEYWORDS', '');define('H1_DE_LA_PAGE', 'Advertising area');define('H2_DE_LA_PAGE', 'Activate your account');define('TEXTE_OK', 'Congratulations ... your advertising is online!');?>

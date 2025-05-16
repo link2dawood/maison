@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="init()" layout="absolute" xmlns:local="*" width="575" height="175" backgroundGradientAlphas="[1.0, 1.0]" backgroundGradientColors="[#00327C, #00327C]" fontWeight="bold" xmlns:classes="classes.*" backgroundColor="#cccccc">
+	<local:ActionBouton id="ab"/>
+	<mx:Button x="410" y="14" label="Ecouter cet enregistrement" id="bt_play" click="ab.ecouter()" enabled="{ab.canPublish}" fillAlphas="[1.0, 1.0]" fillColors="[#FFFFFF, #FFFFFF, #FFFFFF, #FFFFFF]" color="#FFFFFF" width="140" borderColor="#FFFFFF" themeColor="#FFFFFF" cornerRadius="20" height="50" icon="@Embed(source='bt_flash_ecouter.png')"/>
+	<mx:Button x="410" y="112" label="Stopper cet enregistrement" id="bt_stop" click="ab.stopCamera()" enabled="{ab.canPublish}" fillAlphas="[1.0, 1.0]" fillColors="[#FFFFFF, #FFFFFF, #FFFFFF, #FFFFFF]" color="#FFFFFF" width="140" borderColor="#FFFFFF" themeColor="#FFFFFF" height="50" icon="@Embed(source='bt_flash_stop.png')" cornerRadius="20"/>
+	<mx:Label x="40" y="28" text="Click to this button to play this audio message" textDecoration="normal" color="#FFFFFF" fontSize="12" fontFamily="Arial" fontWeight="bold"/>
+	<mx:Label x="40" y="126" text="To stop this audio message, click here" color="#FFFFFF" fontFamily="Arial" fontSize="12"/>
+	<mx:Script>
+        <![CDATA[
+            import mx.controls.Alert;
+            
+            private function init():void {
+                // The FlashVars
+                ab.pseudo_expediteur = Application.application.parameters.monFichier;
+                ab.rep = Application.application.parameters.repertoire;
+                ab.lancer();
+                ab.canPublish = true;
+            }
+        ]]>
+    </mx:Script>
+
+</mx:Application>

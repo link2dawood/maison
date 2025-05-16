@@ -1,0 +1,4 @@
+<?php
+session_start();
+define('HEADER_TITLE', 'Make the promotion of your services');define('HEADER_DESCRIPTION', 'Make the promotion of your services using our advertising network.');define('HEADER_KEYWORDS', 'home exchange, webcam, free accomodation, free holidays accommodation, coach surfing, apartment exchange, webcam home exchange, webcam free accomodation, vacation, vacations, vacations exchange, exchange, travel, holidays, holidays exchange');
+define('H1_DE_LA_PAGE', 'Advertising area');define('H2_DE_LA_PAGE', 'Payment error');define('TEXTE_OK', 'We\'re sorry but an error has occurred !');?>

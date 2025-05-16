@@ -1,0 +1,3 @@
+<?php
+session_start();
+define('HEADER_TITLE', 'Faites la promotion de vos services');define('HEADER_DESCRIPTION', 'Faites la promotion de vos services en faisant appel  notre rseau publicitaire.');define('HEADER_KEYWORDS', 'echange maison');define('H1_DE_LA_PAGE', 'Espace publicitaire');define('H2_DE_LA_PAGE', 'Erreur de paiement');define('TEXTE_OK', 'Nous sommes dsols mais une erreur est survenue !');?>

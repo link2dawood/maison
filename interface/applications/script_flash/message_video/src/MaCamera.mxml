@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="160" height="120" creationComplete="init ()">
+	<mx:UIComponent id="contener" width="100%" height="100%" />
+	<mx:Script>
+		<![CDATA[
+			public var cam : Camera;
+ 
+			private function init () : void
+			{
+				//Security.showSettings(SecurityPanel.CAMERA); // Pour proposer à l'utilisateur le choix de l'entrée vidéo
+				cam = Camera.getCamera();
+				var video : Video  = new Video ();
+				video.attachCamera(cam);
+				contener.addChild(video);
+				video.width = 160;
+				video.height = 120;
+			}
+		]]>
+	</mx:Script>
+</mx:Canvas>

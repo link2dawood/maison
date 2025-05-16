@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="init()" layout="absolute" xmlns:local="*" width="250" height="250" backgroundGradientAlphas="[1.0, 1.0]" fontWeight="bold" xmlns:classes="classes.*" backgroundGradientColors="[#00327C, #00327C]">
+	<local:ActionBouton id="ab"/>
+	<mx:Button x="21" y="210" label="PLAY" id="bt_play" click="ab.ecouter()" enabled="{ab.canPublish}" fillAlphas="[1.0, 1.0]" fillColors="[#840128, #840128, #FF467F, #FF467F]" color="#FFFFFF" width="90" borderColor="#FFFFFF" themeColor="#FFFFFF"/>
+	<mx:Button x="140" y="210" label="STOP" id="bt_stop" click="ab.stopCamera()" enabled="{ab.canPublish}" fillAlphas="[1.0, 1.0]" fillColors="[#840128, #840128, #FF467F, #FF467F]" color="#FFFFFF" width="90" borderColor="#FFFFFF" themeColor="#FFFFFF"/>
+	<mx:Script>
+        <![CDATA[
+            
+            private function init():void {
+                // The FlashVars
+                ab.pseudo_expediteur = Application.application.parameters.monFichier;
+                ab.rep = Application.application.parameters.repertoire;
+                ab.lancer();
+                ab.canPublish = true;
+            }
+        ]]>
+    </mx:Script>
+	<mx:Image x="75" y="54" width="100" height="100" source="@Embed(source='message_audio_b.png')">
+	</mx:Image>
+</mx:Application>

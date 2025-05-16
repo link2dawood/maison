@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" creationComplete="init()" xmlns:local="*" width="575" height="200" backgroundGradientAlphas="[1.0, 1.0]" backgroundGradientColors="[#00327C, #00327C]" fontWeight="bold" backgroundColor="#cccccc">
+	<local:visionner id="contener" width="200" height="160" x="8" y="22"  borderColor="#000000" cornerRadius="0" backgroundColor="#FFFFFF"/>
+	<mx:Button x="425" y="30" label="Lire cette vidéo" id="bt_play" click="contener.voir()" fillAlphas="[1.0, 1.0]" fillColors="[#FFFFFF, #FFFFFF, #FFFFFF, #FFFFFF]" color="#FFFFFF" width="140" borderColor="#FFFFFF" themeColor="#FFFFFF" height="50" cornerRadius="20" icon="@Embed(source='bt_flash_ecouter.png')"/>
+	<mx:Button x="425" y="140" label="Stopper la vidéo" id="bt_stop" click="contener.stopCamera()" fillAlphas="[1.0, 1.0]" fillColors="[#FFFFFF, #FFFFFF, #FFFFFF, #FFFFFF]" color="#FFFFFF" width="140" borderColor="#FFFFFF" themeColor="#FFFFFF" height="50" cornerRadius="20" icon="@Embed(source='bt_flash_stop.png')"/>
+	<mx:Label x="223" y="44" text="Play the video message" textDecoration="normal" color="#FFFFFF" fontSize="12" fontFamily="Arial" fontWeight="bold"/>
+	<mx:Label x="223" y="154" text="To stop it, click on this button" color="#FFFFFF" fontSize="12" fontFamily="Arial"/>
+	<mx:Script>
+        <![CDATA[
+            import mx.controls.Alert;
+            
+            private function init():void {
+                // The FlashVars
+                contener.pseudo_visionner = Application.application.parameters.monFichier;
+                contener.repert = Application.application.parameters.repertoire;
+                contener.initNC();
+                contener.canPublish = true;
+            }
+        ]]>
+    </mx:Script>
+</mx:Application>

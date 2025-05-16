@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"  creationComplete="init()" layout="absolute" width="675" height="250" xmlns:local="*" backgroundGradientAlphas="[1.0, 1.0]" backgroundGradientColors="[#00327C, #00327C]" backgroundColor="#cccccc" borderStyle="none">
+	<local:ActionBouton id="ab"/>
+	<local:MaCamera width="160" height="120" x="1" y="3" borderStyle="solid" borderColor="#000000" borderThickness="1" id="contener" color="#00327C" backgroundColor="#FFFFFF"/>
+	<local:VisionnerCamera id="vc" width="160" height="120" x="1" y="126" borderStyle="solid" borderColor="#000000" borderThickness="1" color="#00327C" backgroundColor="#FFFFFF"/>
+	<mx:Button x="526" y="8" label="enregistrer une vidéo" id="bt_rec" fillAlphas="[1.0, 1.0, 1.0, 1.0]" fillColors="[#FFFFFF, #FFFFFF, #FFFFFF, #FFFFFF]" color="#FFFFFF" click="ab.enregistrer()" enabled="{ab.canPublish}" width="140" borderColor="#FFFFFF" themeColor="#FFFFFF" cornerRadius="20" alpha="1.0" fontSize="10" height="50" icon="@Embed(source='bt_flash_record.png')"/>
+	<mx:Button x="526" y="107" label="stop" id="bt_stop" fillAlphas="[1.0, 1.0]" fillColors="[#FFFFFF, #FFFFFF, #FFFFFF, #FFFFFF]" color="#FFFFFF"  click="ab.stopCamera()" enabled="{ab.canPublish}" width="140" borderColor="#FFFFFF" themeColor="#FFFFFF" cornerRadius="20" height="50" icon="@Embed(source='bt_flash_stop.png')"/>
+	<mx:Button x="526" y="193" label="regarder cette vidéo" id="bt_voir" fillAlphas="[1.0, 1.0]" fillColors="[#FFFFFF, #FFFFFF, #FFFFFF, #FFFFFF]" color="#FFFFFF" click="vc.initNC()" width="140" borderColor="#FFFFFF" themeColor="#FFFFFF" cornerRadius="20" height="50" icon="@Embed(source='bt_flash_regarder.png')"/>
+	<mx:Script>
+        <![CDATA[
+            import mx.controls.Alert;
+            
+            private function init():void {
+                // The FlashVars
+                ab.pseudo_expediteur = Application.application.parameters.monFichier;
+                ab.rep = Application.application.parameters.repertoire;
+                vc.pseudo = Application.application.parameters.monFichier;
+                vc.repert = Application.application.parameters.repertoire;
+                ab.lancer();
+                ab.canPublish = true;
+            }
+        ]]>
+    </mx:Script>
+	<mx:Text x="169" y="22" text="Click on the button to record your video message" fontSize="12" fontFamily="Arial" color="#FFFFFF" fontWeight="bold"/>
+	<mx:Text x="169" y="121" text="Click on it to stop this recorded message" fontFamily="Arial" fontSize="12" color="#FFFFFF" fontWeight="bold"/>
+	<mx:Text x="169" y="207" text="To play your video message, click on this button" fontSize="12" fontFamily="Arial" color="#FFFFFF" fontWeight="bold"/>
+</mx:Application>

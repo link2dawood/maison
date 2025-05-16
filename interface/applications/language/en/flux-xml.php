@@ -1,0 +1,38 @@
+<?php
+session_start();
+define('TEXTE_1', 'Exchange your home for the holidays or free holidays accommodation.');
+define('TEXTE_2', 'Over 240 countries are listed for 8 choices exchange: house, apartment, room etc...');
+define('TEXTE_3', 'Exchange site of home and free holidays accommodation');
+define('TEXTE_4', 'Castle exchange UK');
+define('TEXTE_5', 'You are a tenant or owner of a castle and you want to go on holiday.');
+define('TEXTE_6', 'Mansion exchange UK');
+define('TEXTE_7', 'You are a tenant or owner of a mansion and you want to go on holiday.');
+define('TEXTE_8', 'Villa exchange UK');
+define('TEXTE_9', 'You are a tenant or owner of a villa and you want to go on holiday.');
+define('TEXTE_10', 'Home exchange UK');
+define('TEXTE_11', 'You are a tenant or owner of a home and you want to go on holiday.');
+define('TEXTE_12', 'Apartment exchange UK');
+define('TEXTE_13', 'You are a tenant or owner of a apartment and you want to go on holiday.');
+define('TEXTE_14', 'Room exchange UK');
+define('TEXTE_15', 'You are a tenant or owner of a room and you want to go on holiday.');
+define('TEXTE_16', 'Guest at home UK');
+define('TEXTE_17', 'You wish to invite guests at home (for free).');
+define('TEXTE_18', 'Find a place UK');
+define('TEXTE_19', 'You are looking for a place to stay for holidays.');
+define('TEXTE_20', 'Home exchange, free holidays accommodation');
+define('TEXTE_21', 'Traveling through our articles, learn our tricks and tips for travel of another kind...');
+define('TEXTE_22', 'See our Recommendations section, specially created to keep you informed of the latest information you need before you go...');
+define('TEXTE_23', 'Read and learn professions Tourism insight. Everything you ever wanted to know...');
+define('TEXTE_24', 'Keep up with the latest updates and news about our site.');
+define('TEXTE_25', 'Home exchange and couch surfing: smart travel ... is to travel for cheap price!');
+define('TEXTE_26', 'Visit our ad exchange for home and free holidays accommodation around the world! More than 240 countries to choose...');
+define('TEXTE_27', 'Travel site for free holiday');
+define('TEXTE_28', 'Smart travel ... is to travel for cheap price !');
+define('TEXTE_29', 'We are sorry but at present, no announcement has been validated in this section ... please try again later!');
+define('TEXTE_30', 'Type:');
+define('TEXTE_31', 'city:');
+define('TEXTE_32', 'country:');
+define('TEXTE_33', 'Period :');
+define('TEXTE_34', 'to');
+define('TEXTE_35', '');
+?>
