@@ -1,0 +1,2 @@
+<?php/* * Created on 26 févr. 2009 * * To change the template for this generated file go to * Window - Preferences - PHPeclipse - PHP - Code Templates 
+*/?>vacanceshome.com &copy; 2009 - toute reproduction est strictement interdite
