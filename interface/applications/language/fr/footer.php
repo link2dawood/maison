@@ -6,8 +6,8 @@ if (session_status() == PHP_SESSION_NONE) {
  * PAGE FOOTER LANGUAGE FRANCAIS 
  */
 
-define('FOOTER_CONTACT', 'Contact');
-define('FOOTER_KOSMOPOLYTE', ' <a</>');
+if (!defined('FOOTER_CONTACT'))define('FOOTER_CONTACT', 'Contact');
+if (!defined('FOOTER_KOSMOPOLYTE'))define('FOOTER_KOSMOPOLYTE', ' <a</>');
 
 
  
