@@ -1,15 +1,15 @@
 <?php
-// Démarrage de la session (si pas déjà active)
+// Dï¿½marrage de la session (si pas dï¿½jï¿½ active)
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-// En environnement de développement uniquement
-// À DÉSACTIVER EN PRODUCTION
+// En environnement de dï¿½veloppement uniquement
+// ï¿½ Dï¿½SACTIVER EN PRODUCTION
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-// Configuration de la base de données
+// Configuration de la base de donnï¿½es
 $db_config = [
     'host' => 'localhost',
     'name' => 'maison',
@@ -17,23 +17,23 @@ $db_config = [
     'pass' => ''
 ];
 
-// Connexion à la base de données avec gestion d'erreurs améliorée
+// Connexion ï¿½ la base de donnï¿½es avec gestion d'erreurs amï¿½liorï¿½e
 try {
     $link = new mysqli($db_config['host'], $db_config['user'], $db_config['pass'], $db_config['name']);
     
-    // Vérification de la connexion
+    // Vï¿½rification de la connexion
     if ($link->connect_error) {
         throw new Exception('Erreur de connexion (' . $link->connect_errno . ') : ' . $link->connect_error);
     }
     
-    // Définir le charset en UTF-8
+    // Dï¿½finir le charset en UTF-8
     if (!$link->set_charset('utf8')) {
         throw new Exception('Erreur lors de la configuration du charset UTF-8');
     }
 } catch (Exception $e) {
-    // Log l'erreur (en production, éviter d'afficher les détails de connexion)
-    error_log('Erreur de base de données: ' . $e->getMessage());
-    die('Une erreur est survenue lors de la connexion à la base de données. Veuillez réessayer plus tard.');
+    // Log l'erreur (en production, ï¿½viter d'afficher les dï¿½tails de connexion)
+    error_log('Erreur de base de donnï¿½es: ' . $e->getMessage());
+    die('Une erreur est survenue lors de la connexion ï¿½ la base de donnï¿½es. Veuillez rï¿½essayer plus tard.');
 }
 
 // Chargement des valeurs de configuration dynamiques
@@ -43,22 +43,22 @@ if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $array[] = $row['valeur'];
     }
-    $result->free(); // Libérer la mémoire du résultat
+    $result->free(); // Libï¿½rer la mï¿½moire du rï¿½sultat
 } else {
-    // Gérer l'erreur si aucune configuration trouvée
-    error_log('Avertissement: Aucune configuration trouvée dans la base de données');
+    // Gï¿½rer l'erreur si aucune configuration trouvï¿½e
+    error_log('Avertissement: Aucune configuration trouvï¿½e dans la base de donnï¿½es');
 }
 
-// Compléter avec des chaînes vides si nécessaire pour éviter les erreurs d'index
+// Complï¿½ter avec des chaï¿½nes vides si nï¿½cessaire pour ï¿½viter les erreurs d'index
 $array += array_fill(0, 34, '');
 
-// Définir les constantes critiques avec vérification
+// Dï¿½finir les constantes critiques avec vï¿½rification
 if (!defined('RACINE')) define('RACINE', $array[0]);;
 if (!defined('RACINE_VIRTUEL')) define('RACINE_VIRTUEL', $_SERVER['DOCUMENT_ROOT']);
 if (!defined('HTTP_HOST')) define('HTTP_HOST', $array[1]);
 
 // Langues et racines par langue
-// URLs complètes (domaines ou sous-domaines)
+// URLs complï¿½tes (domaines ou sous-domaines)
 if (!defined('HTTP_FRANCAIS')) define('HTTP_FRANCAIS', 'https://echangesamaison.com/fr/');
 if (!defined('HTTP_ANGLAIS')) define('HTTP_ANGLAIS', 'https://echangesamaison.com/en/');
 if (!defined('HTTP_ESPAGNOL')) define('HTTP_ESPAGNOL', 'https://echangesamaison.com/es/');
@@ -70,7 +70,7 @@ if (!defined('RACINE_ESPAGNOL')) define('RACINE_ESPAGNOL', '/es/');
 if (!defined('RACINE_ALLEMANDE')) define('RACINE_ALLEMANDE', '/de/');
 
 
-// Détection de la langue avec structure améliorée
+// Dï¿½tection de la langue avec structure amï¿½liorï¿½e
 if (!defined('HTTP_SERVEUR') && !defined('LANGUAGE')) {
     if (RACINE_VIRTUEL == RACINE_ANGLAIS) {
         define('HTTP_SERVEUR', HTTP_ANGLAIS);
@@ -86,21 +86,21 @@ if (!defined('HTTP_SERVEUR') && !defined('LANGUAGE')) {
         define('LANGUAGE', 'fr');
     }
 }
-define('HTTP_HOST', 'http://localhost/maison/');
 
-// Fichiers inclus essentiels avec vérification
+
+// Fichiers inclus essentiels avec vï¿½rification
 if (!defined('INCLUDE_FCTS_UTILE')) define('INCLUDE_FCTS_UTILE', RACINE.'/interface/applications/commun/fct-utile.php');
 if (!defined('INCLUDE_CLASS_METIER')) define('INCLUDE_CLASS_METIER', RACINE.'/interface/applications/classes/class.Metier.php');
 if (!defined('INCLUDE_CLASS_ESPACE_MEMBRE')) define('INCLUDE_CLASS_ESPACE_MEMBRE', RACINE.'/interface/applications/classes/class.EspaceMembre.php');
 if (!defined('INCLUDE_CLASS_LOGIN')) define('INCLUDE_CLASS_LOGIN', RACINE.'/interface/applications/classes/class.Login.php');
 
-// Constantes applicatives avec vérification
+// Constantes applicatives avec vï¿½rification
 if (!defined('TABLE_INFORMATIONS_DIRECT')) define('TABLE_INFORMATIONS_DIRECT', 'informations_direct');
 if (!defined('LIMITE_AGE_MAJORITE')) define('LIMITE_AGE_MAJORITE', $array[20]);
 if (!defined('RAFRAICHISSEMENT_MESSENGER')) define('RAFRAICHISSEMENT_MESSENGER', $array[21]);
 if (!defined('LIMITE_AFFICHAGE_INFORMATIONS')) define('LIMITE_AFFICHAGE_INFORMATIONS', $array[22]);
 
-// Fallback pour éviter erreurs avec vérification
+// Fallback pour ï¿½viter erreurs avec vï¿½rification
 if (!defined('ATTRIBUT_ALT')) define('ATTRIBUT_ALT', 'Image');
 if (!defined('HTTP_WARNING')) define('HTTP_WARNING', '<img src="'.HTTP_HOST.'/images/warning.gif" alt="'.ATTRIBUT_ALT.'"/>');
 if (!defined('HTTP_PROGRESS')) define('HTTP_PROGRESS', '<img src="'.HTTP_HOST.'/images/progressbar.gif" alt="'.ATTRIBUT_ALT.'"/>');
@@ -112,7 +112,7 @@ if (!defined('FILENAME_INDEX')) define('FILENAME_INDEX', 'index.php');
  define('CONFIGURATION_CSS_ADMIN', HTTP_HOST.'/css/admin.css');
  define('CONFIGURATION_LIGHTBOX_CSS', HTTP_HOST.'/css/lightbox.css');
  // ----------------------------------------
-// Définition des fichiers JavaScript
+// Dï¿½finition des fichiers JavaScript
 // ----------------------------------------
 
 if (!defined('CONFIGURATION_JS')) {
@@ -145,10 +145,10 @@ if (!defined('CONFIGURATION_ACCORDEON_JS')) {
 
  define('CONFIGURATION_TCHAT_CSS', HTTP_HOST.'/css/tchat.css');
  define('CONFIGURATION_GALERIE_CSS', HTTP_HOST.'/css/galerie.css');
- //Définition de la page correctif CSS pour IE
+ //Dï¿½finition de la page correctif CSS pour IE
  define('CONFIGURATION_CSS_CORRECTION_IE', HTTP_HOST.'/css/corrections_ie.css');
  define('CONFIGURATION_CSS_CALENDRIER', HTTP_HOST.'/css/calendrier.css');
- // Déclaration des balises meta noindex
+ // Dï¿½claration des balises meta noindex
 if (!defined('CONFIGURATION_ROBOTS_NOFOLLOW')) {
     define('CONFIGURATION_ROBOTS_NOFOLLOW',
         '<meta name="robots" content="nofollow,noindex"/>' . "\n" .
@@ -156,7 +156,7 @@ if (!defined('CONFIGURATION_ROBOTS_NOFOLLOW')) {
         '<meta name="robots" content="all"/>' . "\n"
     );
 }
-// Définition des scripts JavaScript
+// Dï¿½finition des scripts JavaScript
 if (!defined('CONFIGURATION_JS')) {
     define('CONFIGURATION_JS', '<script type="text/javascript" src="' . HTTP_HOST . '/interface/applications/commun/java.js"></script>' . "\n");
 }
@@ -1191,13 +1191,13 @@ if (!defined('AFFICHER_EXTRAIT_FIN')) {
   *            CONFIG CONNECTER
   */
  if (!defined('PERIODE_CONNEXION')) {
-    define('PERIODE_CONNEXION', $array[17]); // Durée de la connexion
+    define('PERIODE_CONNEXION', $array[17]); // Durï¿½e de la connexion
 }
 if (!defined('LIMITE_CONNEXION_AVANT_CLOTURE')) {
     define('LIMITE_CONNEXION_AVANT_CLOTURE', $array[18]); // Limite critique avant cloture de la session
 }
 if (!defined('RAFRAICHISSEMENT_PAGE')) {
-    define('RAFRAICHISSEMENT_PAGE', $array[19]); // Échéance du rafraîchissement de la page
+    define('RAFRAICHISSEMENT_PAGE', $array[19]); // ï¿½chï¿½ance du rafraï¿½chissement de la page
 }
 
   /*
@@ -1207,7 +1207,7 @@ if (!defined('RAFRAICHISSEMENT_PAGE')) {
     define('LIMITE_AGE_MAJORITE', $array[20]); // LIMITE AGE ACCEPTE
 }
 if (!defined('RAFRAICHISSEMENT_MESSENGER')) {
-    define('RAFRAICHISSEMENT_MESSENGER', $array[21]); // Échéance du rafraîchissement de la page
+    define('RAFRAICHISSEMENT_MESSENGER', $array[21]); // ï¿½chï¿½ance du rafraï¿½chissement de la page
 }
 if (!defined('LIMITE_AFFICHAGE_INFORMATIONS')) {
     define('LIMITE_AFFICHAGE_INFORMATIONS', $array[22]); // Temps affichage du message dans espace INFORMATIONS EN DIRECT
@@ -1219,16 +1219,16 @@ if (!defined('NOMBRE_MESSAGES_PAR_PAGE')) {
     define('NOMBRE_MESSAGES_PAR_PAGE', $array[24]); // Nombre de messages par page
 }
 if (!defined('NOMBRE_CARACTERES_EXTRAIT_DESCRIPTION')) {
-    define('NOMBRE_CARACTERES_EXTRAIT_DESCRIPTION', $array[25]); // Nombre de caractères extrait description
+    define('NOMBRE_CARACTERES_EXTRAIT_DESCRIPTION', $array[25]); // Nombre de caractï¿½res extrait description
 }
 if (!defined('NOMBRE_MEMBRES_BLACKLIST')) {
     define('NOMBRE_MEMBRES_BLACKLIST', $array[26]); // Nombre de membres blacklister par page
 }
 if (!defined('NOMBRE_MESSAGES_DUO_WEBCAM')) {
-    define('NOMBRE_MESSAGES_DUO_WEBCAM', $array[27]); // Nombre de messages affichés durant la conversation
+    define('NOMBRE_MESSAGES_DUO_WEBCAM', $array[27]); // Nombre de messages affichï¿½s durant la conversation
 }
 if (!defined('RAFRAICHISSEMENT_MESSAGES_DUO_WEBCAMS')) {
-    define('RAFRAICHISSEMENT_MESSAGES_DUO_WEBCAMS', $array[28]); // rafraîchissement toutes les X secondes
+    define('RAFRAICHISSEMENT_MESSAGES_DUO_WEBCAMS', $array[28]); // rafraï¿½chissement toutes les X secondes
 }
 if (!defined('FENETRE_WIDTH_MESSAGES_DUO_WEBCAMS')) {
     define('FENETRE_WIDTH_MESSAGES_DUO_WEBCAMS', $array[29] . 'px');
@@ -1285,18 +1285,30 @@ if (!defined('SERVEUR_SOCKET_PORT')) {
     define('SERVEUR_SOCKET_PORT', '35353');
 }
 
-// ... (tes defines déjà présents)
+// ... (tes defines dï¿½jï¿½ prï¿½sents)
 
 // Fonction pour inclure un fichier de langue
-function includeLanguage($racine, $langue, $fichier) {
-    $chemin = $racine . $fichier;
+// function includeLanguage($racine, $langue, $fichier) {
+//     $chemin = $racine . $fichier;
 
-    if (file_exists($chemin)) {
-        include_once($chemin);
-    } else {
-        echo "<p><i>Erreur : fichier de langue introuvable ($chemin).</i></p>";
+//     if (file_exists($chemin)) {
+//         include_once($chemin);
+//     } else {
+//         echo "<p><i>Erreur : fichier de langue introuvable ($chemin).</i></p>";
+//     }
+// }
+if (!function_exists('includeLanguage')) {
+    function includeLanguage($racine, $langue, $fichier) {
+        $chemin = $racine . $fichier;
+
+        if (file_exists($chemin)) {
+            include_once($chemin);
+        } else {
+            echo "<p><i>Erreur : fichier de langue introuvable ($chemin).</i></p>";
+        }
     }
 }
+
 
 // Charset global
 header('Content-Type: text/html; charset=utf-8');

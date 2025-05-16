@@ -2,12 +2,17 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
+
+
 /*
  * PAGE INDEX LANGUAGE FRANCAIS 
  */
 if (!defined('HEADER_TITLE')) define('HEADER_TITLE', '...');
 if (!defined('HEADER_DESCRIPTION')) define('HEADER_DESCRIPTION', '...');
 if (!defined('HEADER_KEYWORDS')) define('HEADER_KEYWORDS', '...');
+define('HTTP_WARNING', 'Avertissement');
+
+
 define('CONNEXION_DEJA_INSCRITS', 'Vous tes dj inscrits');
 define('CONNEXION_PSEUDO', 'Pseudonyme');
 define('CONNEXION_PASSE', 'Passe : ');

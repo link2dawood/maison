@@ -1,16 +1,11 @@
 <?php
 define('RACINE', __DIR__ . '/');
 define('LANGUAGE', 'fr');
-define('FILENAME_INDEX', 'interface/applications/language/fr/index.php'); // Fixed path
+define('FILENAME_INDEX', 'index.php'); // just filename here
 define('HTTP_SERVEUR', 'http://localhost/maison/');
+define('FILENAME_CONSEILS', '');
 
-function includeLanguage($racine, $langue, $fichier) {
-    $chemin = $racine . $fichier;
-    if (file_exists($chemin)) {
-        include_once($chemin);
-    } else {
-        echo "<p><i>Erreur : fichier de langue introuvable ($chemin).</i></p>";
-    }
-}
+require_once RACINE . 'interface/applications/commun/fct-utile.php';
 
 includeLanguage(RACINE, LANGUAGE, FILENAME_INDEX);
+

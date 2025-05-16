@@ -7,6 +7,8 @@ error_reporting(E_ALL);
 // Charger le fichier de configuration
 require_once(__DIR__ . '/config.php');
 require_once(__DIR__ . '/interface/applications/commun/configuration.php');
+require_once(__DIR__ . '/interface/applications/commun/fct-utile.php');
+
 // Démarrage sécurisé de la session
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -28,8 +30,9 @@ $pseudo_client = $_SESSION['pseudo_client'] ?? 'Invité';
 
     <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="<?= htmlspecialchars(HTTP_SERVEUR ?? '/') ?>maison.xml" />
     <link href="<?= htmlspecialchars(CONFIGURATION_CSS ?? '') ?>" media="screen" rel="stylesheet" type="text/css" />
-    
+
     <?= afficherMetaLangue(LANGUAGE ?? 'fr') ?>
+    
     <?= CONFIGURATION_JS ?? '' ?>
     <?= CONFIGURATION_LIGHTBOX_JS ?? '' ?>
 
