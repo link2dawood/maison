@@ -11,7 +11,7 @@ if (!defined('HEADER_TITLE')) define('HEADER_TITLE', '...');
 if (!defined('HEADER_DESCRIPTION')) define('HEADER_DESCRIPTION', '...');
 if (!defined('HEADER_KEYWORDS')) define('HEADER_KEYWORDS', '...');
 define('HTTP_WARNING', 'Avertissement');
-
+if (!defined('FILENAME_PAGE_PAIEMENT')) define('FILENAME_PAGE_PAIEMENT', 'paiement-ligne.php');
 
 define('CONNEXION_DEJA_INSCRITS', 'Vous tes dj inscrits');
 define('CONNEXION_PSEUDO', 'Pseudonyme');

@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Charger le fichier de configuration
+// Charger les fichiers de configuration depuis le système de fichiers local
 require_once(__DIR__ . '/config.php');
 require_once(__DIR__ . '/interface/applications/commun/configuration.php');
 require_once(__DIR__ . '/interface/applications/commun/fct-utile.php');
@@ -18,6 +18,7 @@ if (session_status() === PHP_SESSION_NONE) {
 $id_client = $_SESSION['id_client'] ?? null;
 $pseudo_client = $_SESSION['pseudo_client'] ?? 'Invité';
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>

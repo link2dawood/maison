@@ -1,10 +1,10 @@
 <?php
 // Sécurise l'inclusion de la configuration
-$configPath = $_SERVER['DOCUMENT_ROOT'] . '//homepages/10/d4299005927/htdocs/maison/interface/applications/language/fr).';
+$configPath = $_SERVER['DOCUMENT_ROOT'] . '/maison/interface/applications/commun/configuration.php';
 if (file_exists($configPath)) {
-    include($configPath);
+    include_once($configPath);
 } else {
-    die('Erreur : fichier configuration introuvable.');
+    die('Erreur : fichier de configuration introuvable.');
 }
 ?>
 <!--[if lte IE 6]>

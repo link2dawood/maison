@@ -4,15 +4,15 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Inclusion du fichier de configuration
-$configPath = $_SERVER['DOCUMENT_ROOT'] . '/maison/interface/applications/commun/configuration.php';
+// Définir le chemin absolu du fichier de configuration
+$configPath = __DIR__ . '/interface/applications/commun/configuration.php';
 if (file_exists($configPath)) {
     include_once($configPath);
 } else {
-    die('Erreur : fichier configuration introuvable.');
+    die('Erreur : fichier .');
 }
 
-// Inclusion des fonctions et classes
+// Inclusion des fonctions et classes (ces constantes doivent être définies dans configuration.php)
 include_once(INCLUDE_FCTS_UTILE);
 include_once(INCLUDE_CLASS_LOGIN);
 include_once(INCLUDE_CLASS_METIER);
@@ -27,6 +27,7 @@ if (file_exists($langPath)) {
     include_once($langPath);
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="fr">
