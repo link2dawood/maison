@@ -1,5 +1,6 @@
-	<?php 
-
+<?php 
+$file = __DIR__ . '/applications/classes/class.Metier.php';
+	include_once($file);
 $metier = new Metier();
   ?> 
 	<div id="module_echange_search">

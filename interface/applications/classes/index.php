@@ -1,4 +1,4 @@
 <?php
-header("Location:http://www.echangesamaison.com/");
+header("Location:http://localhost/maison");
 exit();
 ?>

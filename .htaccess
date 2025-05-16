@@ -6,8 +6,8 @@ RewriteEngine on
 RewriteBase /
 #
 #--------REDIRECTION DES ALIAS -----------------------------------------------
-RewriteCond %{HTTP_HOST} ^echangesamaison.com/$
-RewriteRule ^(.*)   http://echangesamaison.com/$1  [QSA,L,R=301]
+RewriteCond %{HTTP_HOST} ^http://localhost/maison/$
+RewriteRule ^(.*)   http://localhost/maison/$1  [QSA,L,R=301]
 #--------REECRITURE PAGES LANGUES ANGLAIS---------------------------------
 RewriteRule ^www.vacanceshome.com/en ?langue=en  [QSA,L,R=301]
 #--------REECRITURE PAGES LANGUES ESPAGNOL---------------------------------

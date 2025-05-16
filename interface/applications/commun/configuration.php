@@ -59,10 +59,10 @@ if (!defined('HTTP_HOST')) define('HTTP_HOST', $array[1]);
 
 // Langues et racines par langue
 // URLs compl�tes (domaines ou sous-domaines)
-if (!defined('HTTP_FRANCAIS')) define('HTTP_FRANCAIS', 'https://echangesamaison.com/fr/');
-if (!defined('HTTP_ANGLAIS')) define('HTTP_ANGLAIS', 'https://echangesamaison.com/en/');
-if (!defined('HTTP_ESPAGNOL')) define('HTTP_ESPAGNOL', 'https://echangesamaison.com/es/');
-if (!defined('HTTP_ALLEMANDE')) define('HTTP_ALLEMANDE', 'https://echangesamaison.com/de/');
+if (!defined('HTTP_FRANCAIS')) define('HTTP_FRANCAIS', 'http://localhost/maison/fr/');
+if (!defined('HTTP_ANGLAIS')) define('HTTP_ANGLAIS', 'http://localhost/maison/en/');
+if (!defined('HTTP_ESPAGNOL')) define('HTTP_ESPAGNOL', 'http://localhost/maison/es/');
+if (!defined('HTTP_ALLEMANDE')) define('HTTP_ALLEMANDE', 'http://localhost/maison/de/');
 
 // Racines internes
 if (!defined('RACINE_ANGLAIS')) define('RACINE_ANGLAIS', '/en/');

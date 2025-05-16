@@ -11,10 +11,10 @@ error_reporting(E_ALL);
 
 // Configuration de la base de données
 $db_config = [
-    'host' => 'db5017827985.hosting-data.io',
-    'name' => 'dbs14218084',
-    'user' => 'dbu885281',
-    'pass' => 'aWcDSb9twH6>6Q-55'
+    'host' => 'localhost',
+    'name' => 'maison',
+    'user' => 'root',
+    'pass' => ''
 ];
 
 // Connexion à la base de données avec gestion d'erreurs améliorée
@@ -59,10 +59,10 @@ if (!defined('HTTP_HOST')) define('HTTP_HOST', $array[1]);
 
 // Langues et racines par langue
 // URLs complètes (domaines ou sous-domaines)
-if (!defined('HTTP_FRANCAIS')) define('HTTP_FRANCAIS', 'https://echangesamaison.com/fr/');
-if (!defined('HTTP_ANGLAIS')) define('HTTP_ANGLAIS', 'https://echangesamaison.com/en/');
-if (!defined('HTTP_ESPAGNOL')) define('HTTP_ESPAGNOL', 'https://echangesamaison.com/es/');
-if (!defined('HTTP_ALLEMANDE')) define('HTTP_ALLEMANDE', 'https://echangesamaison.com/de/');
+if (!defined('HTTP_FRANCAIS')) define('HTTP_FRANCAIS', 'http://localhost/maison/fr/');
+if (!defined('HTTP_ANGLAIS')) define('HTTP_ANGLAIS', 'http://localhost/maison/en/');
+if (!defined('HTTP_ESPAGNOL')) define('HTTP_ESPAGNOL', 'http://localhost/maison/es/');
+if (!defined('HTTP_ALLEMANDE')) define('HTTP_ALLEMANDE', 'http://localhost/maison/de/');
 
 // Racines internes
 if (!defined('RACINE_ANGLAIS')) define('RACINE_ANGLAIS', '/en/');

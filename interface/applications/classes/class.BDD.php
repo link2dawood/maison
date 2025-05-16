@@ -5,10 +5,10 @@
 
 class BDD {
     // Attributs
-    var $serveur ='db5017827985.hosting-data.io';
-    var $login = 'dbu885281';
-    var $motDePasse ='aWcDSb9twH6>6Q-55';
-    var $baseDeDonnees = 'dbs14218084';
+    var $serveur ='localhost';
+    var $login = 'root';
+    var $motDePasse ='';
+    var $baseDeDonnees = 'maison';
     var $connexion;
 
     // Constructeur
