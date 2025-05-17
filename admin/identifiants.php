@@ -5,9 +5,9 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 // Connexion à la base de données
-define('BDD_SERVEUR', '127.0.0.1'); // ⚠️ PAS localhost
-define('BDD_IDENTIFIANT', 'dbu885281');
-define('BDD_MOT_PASSE', 'Poule@1995');
+define('BDD_SERVEUR', '127.0.0.1');
+define('BDD_IDENTIFIANT', 'root');
+define('BDD_MOT_PASSE', '');
 define('BDD_BASE_DE_DONNEES', 'maison');
 
 // Connexion mysqli
@@ -18,18 +18,25 @@ if (!$link) {
 mysqli_set_charset($link, "utf8");
 
 // Chargement des paramètres depuis la table "configuration"
+$config = [];
+
 $query = "SELECT * FROM configuration ORDER BY id ASC";
 $result = mysqli_query($link, $query);
 
-$config = [];
-while ($row = mysqli_fetch_object($result)) {
-    $config[] = $row->parametrage;
+if ($result) {
+    while ($row = mysqli_fetch_object($result)) {
+        $config[] = $row->parametrage ?? '';
+    }
+    mysqli_free_result($result);
+} else {
+    // Gestion d'erreur si la requête échoue
+    error_log("Erreur lors de la requête SQL : " . mysqli_error($link));
 }
 mysqli_close($link);
 
 // Constantes générales
 define('RACINE', $config[0] ?? '');
-define('RACINE_VIRTUEL', $_SERVER['DOCUMENT_ROOT']);
+define('RACINE_VIRTUEL', $_SERVER['DOCUMENT_ROOT'] ?? '');
 define('HTTP_HOST', $config[1] ?? '');
 
 // Constantes de chemins de fichiers
@@ -47,9 +54,14 @@ define('INCLUDE_FOOTER_LIENS', RACINE . '/interface/applications/commun/footer_l
 define('INCLUDE_FOOTER_PARTENAIRES', RACINE . '/interface/applications/commun/footer_partenaires.php');
 define('INCLUDE_FOOTER', RACINE . '/interface/applications/commun/footer.php');
 
-// Constantes de configuration HTML (à récupérer ou définir par défaut si vide)
-define('CONFIGURATION_CONTENT', $config[11] ?? 'text/html');
-define('CONFIGURATION_CHARSET', $config[10] ?? 'utf-8');
+// Constantes de configuration HTML (valeurs par défaut si non définies)
+if (!defined('CONFIGURATION_CONTENT')) {
+    define('CONFIGURATION_CONTENT', 'text/html');
+}
+if (!defined('CONFIGURATION_CHARSET')) {
+    define('CONFIGURATION_CHARSET', 'utf-8');
+}
+
 define('CONFIGURATION_CSS', '/interface/css/style.css');
 define('CONFIGURATION_LIGHTBOX_CSS', '/interface/css/lightbox.css');
 define('CONFIGURATION_LIGHTBOX_JS', '<script src="/interface/js/lightbox.js"></script>');
