@@ -78,16 +78,23 @@ class EspaceMembre{
 		return $mysql;
 	}
 	
-	function getChamps($retour, $table, $champs, $valeur){
-		//Instanciation de la classe requete SQL
-		$req = new CompBDD();
-		
-		$result = $req->getChampsMYSQL($retour, $table, $champs, $valeur);
-		while ($mysql = mysql_fetch_object($result)){
-			$var = $mysql->$retour;
-		}
-		return $var;
-	}
+	function getChamps($retour, $table, $champs, $valeur) {
+    // Instanciation de la classe requete SQL
+    $req = new CompBDD();
+
+    // Appel à une méthode qui retourne un résultat MySQLi
+    $result = $req->getChampsMYSQL($retour, $table, $champs, $valeur);
+
+    $var = null;
+    if ($result) {
+        while ($mysql = mysqli_fetch_object($result)) {
+            $var = $mysql->$retour;
+        }
+    }
+
+    return $var;
+}
+
 	
 	function getConnexion($id_client, $pseudo_client){
 		$req = new CompBDD();

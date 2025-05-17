@@ -2,20 +2,24 @@
 if (isset($_GET['PHPSESSID']) || isset($_COOKIE[session_name()])){
 	session_start() ;
 }
-include('./interface/applications/commun/configuration.php');
-include(INCLUDE_FCTS_UTILE);
-include(INCLUDE_CLASS_ESPACE_MEMBRE);
+// include('./interface/applications/commun/configuration.php');
+include('./interface/applications/commun/fct-utile.php');
+include('./config.php');
+// include(INCLUDE_FCTS_UTILE);
+// include(INCLUDE_CLASS_ESPACE_MEMBRE);
+include('./interface/applications/classes/class.EspaceMembre.php');
 $membre = new EspaceMembre();
-include(INCLUDE_CLASS_METIER);
+include('./interface/applications/classes/class.Metier.php');
+require_once('./interface/applications/commun/configuration.php');
 $metier = new Metier();
 
-$metier->controleConnexionMetier(time(), $_SESSION['id_client'], $_SESSION['pseudo_client']);
+// $metier->controleConnexionMetier(time(), $_SESSION['id_client'], $_SESSION['pseudo_client']);
 
 //TRAITEMENT DU SUPPORT DE LANGUE
 includeLanguage(RACINE, LANGUAGE, FILENAME_ANNONCES_ECHANGE_MAISON);
 
 //****** TRAITEMENT *****************
-$page = defautPage($_GET['page']);
+$page = defautPage($_GET['page'] ?? '');
 //Récupération du type d'échange
 $type_echange = $membre->getChamps("element", "rubriques_".LANGUAGE, "id", minuscule($_GET['type']));
 //Récupération du pays d'échange
@@ -36,7 +40,6 @@ modifierUrlsExotiques($UrlTransformation, $page, minuscule($_GET['type']),minusc
     <title><?php echo ajoutCouch(minuscule($_GET['type']), $type_echange); ?> <?php echo $pays; ?></title>
 	<meta name="description" content="<?php echo ajoutCouch(minuscule($_GET['type']), $type_echange); ?> <?php echo $pays; ?>"/>
 	<meta name="keywords" content="<?php echo ajoutCouch(minuscule($_GET['type']), $type_echange); ?> <?php echo $pays; ?>"/>
-	<meta http-equiv="Content-Type" content="<?php echo CONFIGURATION_CONTENT; ?>; charset=<?php echo CONFIGURATION_CHARSET; ?>" />
 	<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="<?php echo HTTP_SERVEUR; ?>annonces-rss-<?php echo minuscule($_GET['type']); ?>-<?php echo minuscule($_GET['choix_pays']); ?>.xml" />
     <link href="<?php echo CONFIGURATION_CSS; ?>" media="screen" rel="stylesheet" type="text/css" />
     <link href="<?php echo CONFIGURATION_LIGHTBOX_CSS; ?>" media="screen" rel="stylesheet" type="text/css" />
