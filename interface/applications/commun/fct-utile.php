@@ -302,15 +302,10 @@ function mail_attachement($to , $sujet , $message , $fichier , $typemime , $nom 
     ".$from."\n".$mail_mime);
 }
 
-function defautPage($var){
-	if (isset($var) AND $var > 0){
-		$page = $var; 
-	}
-	else {
-		$page = 1; 
-	}
-	return $page;
+function defautPage($var) {
+    return (isset($var) && is_numeric($var) && $var > 0) ? (int)$var : 1;
 }
+
 
 function boutonPagination($url, $method, $name, $bt_name, $action, $page_actuelle){
 	if ($action == "retour"){
@@ -1029,8 +1024,7 @@ function formaterChiffre($chiffre){
 
 function majPagination($nombreMembresParPage, $TotalMembres){
 	// NUMERO 2 --> COMPTER LE NOMBRE DE PAGES PAR DEFAUT
-	$nombreDePages  = ceil($TotalMembres / $nombreMembresParPage);
-	return $nombreDePages;
+   return (int) ceil($total / $nbParPage);
 }
 
 function controleAcces(){

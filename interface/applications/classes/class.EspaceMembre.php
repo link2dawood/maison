@@ -4,6 +4,7 @@
 //********************************************************************
 include_once("class.CompBDD.php");
 
+
 class EspaceMembre{
 	
 	//Constructeur
@@ -11,21 +12,25 @@ class EspaceMembre{
 		
 	}
 	
-	function afficherPaysEspaceMembre($name, $language){
-		//Instanciation de la classe requete SQL
-		$req = new CompBDD();
-		$array = array();
-		
-		array_push($array, '<select name="'.$name.'" id="'.$name.'"><option value="x">'.PAYS_TOP.'</option><option value="'.PAYS_FRANCE_ID.'">'.PAYS_FRANCE.'</option><option value="'.PAYS_BELGIQUE_ID.'">'.PAYS_BELGIQUE.'</option><option value="'.PAYS_SUISSE_ID.'">'.PAYS_SUISSE.'</option><option value="0" disabled>***********</option>');
-		
-		$result = $req->afficherPaysMYSQL($language);
-		while ($mysql = mysql_fetch_object($result)){
-			array_push($array, '<option value="'.$mysql->id.'">'.$mysql->pays.'</option>');
-		}
-		array_push($array, '</select>');
-		
-		return $array;
-	}
+	
+function afficherPaysEspaceMembre($name, $language) {
+    $req = new CompBDD();
+    $array = array();
+
+    array_push($array, '<select name="' . $name . '" id="' . $name . '"><option value="x">' . PAYS_TOP . '</option><option value="' . PAYS_FRANCE_ID . '">' . PAYS_FRANCE . '</option><option value="' . PAYS_BELGIQUE_ID . '">' . PAYS_BELGIQUE . '</option><option value="' . PAYS_SUISSE_ID . '">' . PAYS_SUISSE . '</option><option value="0" disabled>***********</option>');
+
+    $result = $req->afficherPaysMYSQL($language);
+
+    // mysqli version
+    while ($mysql = $result->fetch_object()) {
+        array_push($array, '<option value="' . $mysql->id . '">' . $mysql->pays . '</option>');
+    }
+
+    array_push($array, '</select>');
+
+    return $array;
+}
+
 	
 	function afficherDepartement($name, $language, $id_pays){
 		//Instanciation de la classe requete SQL
@@ -1066,13 +1071,14 @@ class EspaceMembre{
 		return $array;
 	}
 	
-	function getAffichageAleatoire($partie){
-		$req = new CompBDD();
-		
-		$mysql = $req->getAffichageAleatoireMYSQL($partie);
-		$sql = mysql_fetch_object($mysql);
-		return $sql;
-	}
+function getAffichageAleatoire($partie){
+	$req = new CompBDD();
+	
+	$mysql = $req->getAffichageAleatoireMYSQL($partie);
+	$sql = mysqli_fetch_object($mysql);  // Updated line
+	return $sql;
+}
+
 	
 	function insertIdentifiants($pseudo_client,$timeur){
 		//Instanciation de la classe requete SQL

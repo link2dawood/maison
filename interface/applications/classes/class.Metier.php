@@ -64,7 +64,7 @@ class Metier{
 			}
 			
 			if(empty($key)){
-				array_push($array, '<li class="img">'.afficherMiniature("", "", "", "").'</li>');
+				array_push($array, '<li class="img"></li>');
 			}
 			else{
 				array_push($array, '<li class="img"><a href="'.HTTP_SERVEUR.'profil-'.$id.'.php">'.afficherMiniature($id, $pseudo, $miniature, $statut).'</a></li>');

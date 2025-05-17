@@ -10,6 +10,8 @@ include('./config.php');
 include('./interface/applications/classes/class.EspaceMembre.php');
 $membre = new EspaceMembre();
 include('./interface/applications/classes/class.Metier.php');
+
+
 require_once('./interface/applications/commun/configuration.php');
 $metier = new Metier();
 
@@ -31,8 +33,10 @@ else{
 	$table = TABLE_LISTING_COUCHSURFING;
 }
 //***********************************
+$x = minuscule($_GET['x'] ?? '');
+$y = minuscule($_GET['y'] ?? '');
 $UrlTransformation = $_SERVER['REQUEST_URI'];
-modifierUrlsExotiques($UrlTransformation, $page, minuscule($_GET['type']),minuscule($_GET['choix_pays']), minuscule($_GET['x']),minuscule($_GET['y']));
+modifierUrlsExotiques($UrlTransformation, $page, minuscule($_GET['type'] ?? ''), minuscule($_GET['choix_pays'] ?? ''), $x, $y);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -60,7 +64,7 @@ modifierUrlsExotiques($UrlTransformation, $page, minuscule($_GET['type']),minusc
 					<li><?php echo PHRASE_LOGO; ?></li>
 				</ul>
 			</div>
-			<?php echo afficherLogin($_SESSION['pseudo_client'], HTTP_SERVEUR); ?>
+		
 			<h1><?php echo ajoutCouch(minuscule($_GET['type']), $type_echange); ?> <?php echo $pays; ?></h1>
 		</div>
 		<!-- MENU -->
@@ -82,7 +86,7 @@ modifierUrlsExotiques($UrlTransformation, $page, minuscule($_GET['type']),minusc
 							$element = majPagination(NOMBRE_ANNONCE_PAR_PAGE, $metier->compterMembresSuivantOptions($table,minuscule($_GET['type']),minuscule($_GET['choix_pays']),"liste"));
 							$nombreDePages = $element;
 							if (isset($page)){
-								if ($page<=$nombreDePages OR $_GET['page'] == 0){
+								 if ($page <= $nombreDePages || ($_GET['page'] ?? 0) == 0) {
 								//ON NE FAIT RIEN...
 								}
 								else{
@@ -93,56 +97,81 @@ modifierUrlsExotiques($UrlTransformation, $page, minuscule($_GET['type']),minusc
 							<div id="pagination">
 								<table class="navigation">
 									<tr>
-										<td class="li_1">
-											<?php 
-											//---- PAGINATION RETOUR --------------
-											if(is_null(defautPage($_GET['page'])) OR defautPage($_GET['page']) <= 1){
-												$num = 0;
-												$disabled = "disabled";
-											}
-											else{
-												$num = defautPage($_GET['page'])-1;
-												$disabled = "";
-											}
-											//-------- BOUTON PAGINATION RETOUR --------------
-											echo '<form action="'.HTTP_SERVEUR.FILENAME_ANNONCES_ECHANGE_MAISON.'" method="get">' .
-												'<input type="hidden" name="page" value="'.$num.'"/>' .
-												'<input type="hidden" name="type" value="'.$_GET['type'].'"/>' .
-												'<input type="hidden" name="choix_pays" value="'.$_GET['choix_pays'].'"/>' .
-												'<input type="submit" value="'.BOUTON_RETOUR_PAGINATION.'" '.$disabled.'/>' .
-												'</form>';
-											?>
-										</td>
-										<td class="li_2"><?php echo $metier->compterMembresSuivantOptions($table,minuscule($_GET['type']),minuscule($_GET['choix_pays']),"liste").NOMBRE_RESULTAT; ?></td>
-										<td class="li_3"><?php echo PAGE.defautPage($_GET['page']).'/'.$nombreDePages; ?></td>
+<td class="li_1">
+    <?php 
+    // Provide safe default values to avoid undefined index warnings
+    $page = defautPage($_GET['page'] ?? 1);
+    $type = $_GET['type'] ?? '0';
+    $choix_pays = $_GET['choix_pays'] ?? '0';
+
+    //---- PAGINATION RETOUR --------------
+    if (is_null($page) || $page <= 1) {
+        $num = 0;
+        $disabled = "disabled";
+    } else {
+        $num = $page - 1;
+        $disabled = "";
+    }
+
+    //-------- BOUTON PAGINATION RETOUR --------------
+    echo '<form action="' . HTTP_SERVEUR . FILENAME_ANNONCES_ECHANGE_MAISON . '" method="get">' .
+        '<input type="hidden" name="page" value="' . $num . '"/>' .
+        '<input type="hidden" name="type" value="' . htmlspecialchars($type) . '"/>' .
+        '<input type="hidden" name="choix_pays" value="' . htmlspecialchars($choix_pays) . '"/>' .
+        '<input type="submit" value="' . BOUTON_RETOUR_PAGINATION . '" ' . $disabled . '/>' .
+        '</form>';
+    ?>
+</td>
+<td class="li_2">
+    <?php 
+    // Output count with a text suffix, replace " résultats" as needed
+    echo $metier->compterMembresSuivantOptions($table, minuscule($type), minuscule($choix_pays), "liste") . " résultats"; 
+    ?>
+</td>
+<td class="li_3">
+    <?php 
+    echo 'Page ' . $page . '/' . $nombreDePages; 
+    ?>
+</td>
+
 										<td class="li_4">
-										<?php 
-											//-------- BOUTON PAGINATION AVANCER --------------
-											if(is_null(defautPage($_GET['page'])) OR defautPage($_GET['page']) == 0){
-												$num = 1;
-											}
-											else{
-												$num = defautPage($_GET['page'])+1;
-											}
-											echo '<form action="'.HTTP_SERVEUR.FILENAME_ANNONCES_ECHANGE_MAISON.'" method="get">' .
-												'<input type="hidden" name="page" value="'.$num.'"/>' .
-												'<input type="hidden" name="type" value="'.$_GET['type'].'"/>' .
-												'<input type="hidden" name="choix_pays" value="'.$_GET['choix_pays'].'"/>' .
-												'<input type="submit" value="'.BOUTON_SUITE_PAGINATION.'"/>' .
-												'</form>';
-										 ?>
+<?php 
+// Safe defaults
+$page = defautPage($_GET['page'] ?? 1);
+$type = $_GET['type'] ?? '0';
+$choix_pays = $_GET['choix_pays'] ?? '0';
+
+//-------- BOUTON PAGINATION AVANCER --------------
+if (is_null($page) || $page == 0) {
+    $num = 1;
+} else {
+    $num = $page + 1;
+}
+
+echo '<form action="' . HTTP_SERVEUR . FILENAME_ANNONCES_ECHANGE_MAISON . '" method="get">' .
+    '<input type="hidden" name="page" value="' . $num . '"/>' .
+    '<input type="hidden" name="type" value="' . htmlspecialchars($type) . '"/>' .
+    '<input type="hidden" name="choix_pays" value="' . htmlspecialchars($choix_pays) . '"/>' .
+    '<input type="submit" value="' . BOUTON_SUITE_PAGINATION . '"/>' .
+    '</form>';
+?>
+
 										</td>
 										<td class="li_5"><?php 
-											//MOTEUR DE PAGINATION
-											echo '<form action="'.HTTP_SERVEUR.FILENAME_ANNONCES_ECHANGE_MAISON.'" method="get">' .
-													''.INTITULE_INPUT_PAGINATION.'' .
-													'<input type="text" name="page" value="'.defautPage($_GET['page']).'" style="width:30px;"/>' .
-													'<input type="hidden" name="type" value="'.$_GET['type'].'"/>' .
-													'<input type="hidden" name="choix_pays" value="'.$_GET['choix_pays'].'"/>' .
-													'<input type="submit" value="Go"/>' .
-													'</form>';
-											
-											?>
+// Safe default values to prevent warnings
+$page = defautPage($_GET['page'] ?? 1);
+$type = $_GET['type'] ?? '0';
+$choix_pays = $_GET['choix_pays'] ?? '0';
+
+// MOTEUR DE PAGINATION
+echo '<form action="'.HTTP_SERVEUR.FILENAME_ANNONCES_ECHANGE_MAISON.'" method="get">' .
+    '<input type="text" name="page" value="'.htmlspecialchars($page).'" style="width:30px;"/>' .
+    '<input type="hidden" name="type" value="'.htmlspecialchars($type).'"/>' .
+    '<input type="hidden" name="choix_pays" value="'.htmlspecialchars($choix_pays).'"/>' .
+    '<input type="submit" value="Go"/>' .
+    '</form>';
+?>
+
 										</td>
 									</tr>
 								</table>
@@ -154,16 +183,7 @@ modifierUrlsExotiques($UrlTransformation, $page, minuscule($_GET['type']),minusc
 					<td class="titre_tchat">
 						<div class="bord_gauche"></div>
 						<div class="corps_top_tchat">
-						<?php
-						if(empty($_SESSION['pseudo_client'])){
-							//ON NE FAIT RIEN...
-						}
-						else{
-							$msg_envoyes = $membre->compterMessagesDuMembreCommeExpediteur(TABLE_MESSENGER, $_SESSION['id_client'], $_SESSION['pseudo_client'], "non");
-							$recus = $membre->compterMessagesDuMembreCommeDestinataire(TABLE_MESSENGER, $_SESSION['id_client'], $_SESSION['pseudo_client'], "non");
-						}
-						echo afficherCompteurMessages($_SESSION['pseudo_client'], $recus, $msg_envoyes);
-						?></div>
+</div>
 						<div class="bord_droit"></div>
 					</td>
 				</tr>
@@ -171,7 +191,7 @@ modifierUrlsExotiques($UrlTransformation, $page, minuscule($_GET['type']),minusc
 					<!-- PARTIE DEVELOPPEMENT -->
 					<td>
 						 <div class="developpement">
-						 	<div id="col_central"><?php include(INCLUDE_LISTING_ESPACE_LIVE); ?></div>
+						 	<div id="col_central"></div>
 						</div>
 					</td>
 					<!-- PARTIE TCHAT -->
@@ -198,7 +218,7 @@ modifierUrlsExotiques($UrlTransformation, $page, minuscule($_GET['type']),minusc
 							<div class="bord_g"></div>
 							<div class="centre_top_tchat"><?php echo ESPACE_PUBLICITAIRE; ?></div>
 							<div class="bord_d"></div>
-							<div class="maPub"><?php include(INCLUDE_MA_PUBLICITE_D); ?></div>
+							<div class="maPub"></div>
 							<!-- NOS CONSEILS & QUESTIONS -->
 							<div class="bord_g"></div>
 							<div class="centre_top_tchat"><?php echo ESPACE_CONSEILS; ?></div>

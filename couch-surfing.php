@@ -2,14 +2,18 @@
 if (isset($_GET['PHPSESSID']) || isset($_COOKIE[session_name()])){
 	session_start() ;
 }
-include('./interface/applications/commun/configuration.php');
-include(INCLUDE_FCTS_UTILE);
-include(INCLUDE_CLASS_ESPACE_MEMBRE);
+// include('./interface/applications/commun/fct-utile.php');
+
+include('./interface/applications/classes/class.EspaceMembre.php');
 $membre = new EspaceMembre();
-include(INCLUDE_CLASS_METIER);
+include('./interface/applications/classes/class.Metier.php');
+
+
+
+require_once('./interface/applications/commun/configuration.php');
 $metier = new Metier();
 
-$metier->controleConnexionMetier(time(), $_SESSION['id_client'], $_SESSION['pseudo_client']);
+
 
 //TRAITEMENT DU SUPPORT DE LANGUE
 includeLanguage(RACINE, LANGUAGE, FILENAME_COUCHSURFING);
@@ -17,16 +21,16 @@ includeLanguage(RACINE, LANGUAGE, FILENAME_COUCHSURFING);
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title><?php echo HEADER_TITLE; ?></title>
-	<meta name="description" content="<?php echo HEADER_DESCRIPTION; ?>"/>
-	<meta name="keywords" content="<?php echo HEADER_KEYWORDS; ?>"/>
-	<meta http-equiv="Content-Type" content="<?php echo CONFIGURATION_CONTENT; ?>; charset=<?php echo CONFIGURATION_CHARSET; ?>" />
+    <title></title>
     <link href="<?php echo CONFIGURATION_CSS; ?>" media="screen" rel="stylesheet" type="text/css" />
     <link href="<?php echo CONFIGURATION_LIGHTBOX_CSS; ?>" media="screen" rel="stylesheet" type="text/css" />
-    <?php echo afficherMetaLangue(LANGUAGE); ?>
+   
     <?php echo CONFIGURATION_LIGHTBOX_JS; ?>
     <?php echo CONFIGURATION_JS; ?>
-	<?php include(INCLUDE_COMPATIBILITE_NAVIGATEURS); ?>
+	<?php 
+	include('./interface/compatibilite-navigateurs.php');
+	
+	?>
 </head>
 <body>
 <!-- DEBUT EXTERIEUR -->
@@ -36,19 +40,19 @@ includeLanguage(RACINE, LANGUAGE, FILENAME_COUCHSURFING);
 		<div id="entete">
 			<div id="logo">
 				<ul>
-					<li><a href="<?php echo HTTP_SERVEUR; ?>"><?php echo LOGO; ?></a></li>
-					<li><?php echo PHRASE_LOGO; ?></li>
+					<li><a href="<?php echo HTTP_SERVEUR; ?>"></a></li>
+					<li></li>
 				</ul>
 			</div>
-			<?php echo afficherLogin($_SESSION['pseudo_client'], HTTP_SERVEUR); ?>
-			<h1><?php echo H1_DE_LA_PAGE; ?></h1>
+			
+			<h1></h1>
 		</div>
 		<!-- MENU -->
-		<div id="menu"><?php getMenu($_SESSION['pseudo_client']); ?></div>
+		<div id="menu"></div>
 		<!-- PARTIE ADSENSE -->
-		<div id="adsense"><?php include(INCLUDE_ADSENSE); ?></div>
+		<div id="adsense"></div>
 		<!-- RECHERCHE PAR CONNEXION -->
-		<div id="module_recherche"><?php include(INCLUDE_MODULE_RECHERCHE); ?></div>
+		<div id="module_recherche"><?php include('./interface/module-recherche-connexion.php'); ?></div>
 		<!-- BLOC REFERENCE -->
 		<div id="contenu">
 			<table id="tiers">
@@ -61,10 +65,10 @@ includeLanguage(RACINE, LANGUAGE, FILENAME_COUCHSURFING);
 							//MAJ PAGINATION
 							$table = TABLE_LISTING_COUCHSURFING;
 							$total = $metier->compterMembresSuivantOptions($table,"","","couchsurfing");
-							$page = defautPage($_GET['page']);
+							$page = 1;
 							$type = 7;
 							
-							$nombreDePages = majPagination(NOMBRE_ANNONCE_PAR_PAGE, $total);
+							$nombreDePages = 1;
 							
 							if (isset($page)){
 								if ($page<=$nombreDePages OR $_GET['page'] == 0){
@@ -96,8 +100,8 @@ includeLanguage(RACINE, LANGUAGE, FILENAME_COUCHSURFING);
 												'</form>';
 											?>
 										</td>
-										<td class="li_2"><?php echo $total.NOMBRE_RESULTAT; ?></td>
-										<td class="li_3"><?php echo PAGE.$page.'/'.$nombreDePages; ?></td>
+										<td class="li_2"><?php echo $total; ?></td>
+										<td class="li_3"></td>
 										<td class="li_4">
 										<?php 
 											//-------- BOUTON PAGINATION AVANCER --------------
@@ -116,7 +120,6 @@ includeLanguage(RACINE, LANGUAGE, FILENAME_COUCHSURFING);
 										<td class="li_5"><?php 
 											//MOTEUR DE PAGINATION
 											echo '<form action="'.HTTP_SERVEUR.FILENAME_COUCHSURFING.'" method="get">' .
-													''.INTITULE_INPUT_PAGINATION.'' .
 													'<input type="text" name="page" value="'.$page.'" style="width:30px;"/>' .
 													'<input type="submit" value="Go"/>' .
 													'</form>';
@@ -141,7 +144,7 @@ includeLanguage(RACINE, LANGUAGE, FILENAME_COUCHSURFING);
 							$msg_envoyes = $membre->compterMessagesDuMembreCommeExpediteur(TABLE_MESSENGER, $_SESSION['id_client'], $_SESSION['pseudo_client'], "non");
 							$recus = $membre->compterMessagesDuMembreCommeDestinataire(TABLE_MESSENGER, $_SESSION['id_client'], $_SESSION['pseudo_client'], "non");
 						}
-						echo afficherCompteurMessages($_SESSION['pseudo_client'], $recus, $msg_envoyes);
+						
 						?></div>
 						<div class="bord_droit"></div>
 					</td>
@@ -150,7 +153,7 @@ includeLanguage(RACINE, LANGUAGE, FILENAME_COUCHSURFING);
 					<!-- PARTIE DEVELOPPEMENT -->
 					<td>
 						 <div class="developpement">
-						 	<div id="col_central"><?php include(INCLUDE_LISTING_THEMATIQUE); ?></div>
+						 	<div id="col_central"><?php include('./interface/listing-thematique.php'); ?></div>
 						 </div>
 					</td>
 					<!-- PARTIE TCHAT -->
@@ -177,7 +180,7 @@ includeLanguage(RACINE, LANGUAGE, FILENAME_COUCHSURFING);
 							<div class="bord_g"></div>
 							<div class="centre_top_tchat"><?php echo ESPACE_PUBLICITAIRE; ?></div>
 							<div class="bord_d"></div>
-							<div class="maPub"><?php include(INCLUDE_MA_PUBLICITE_D); ?></div>
+							<div class="maPub"><?php include('./interface/ma-publicite_D.php'); ?></div>
 							<!-- NOS CONSEILS & QUESTIONS -->
 							<div class="bord_g"></div>
 							<div class="centre_top_tchat"><?php echo ESPACE_CONSEILS; ?></div>
@@ -192,11 +195,30 @@ includeLanguage(RACINE, LANGUAGE, FILENAME_COUCHSURFING);
 				</tr>
 			</table>
 		</div>
-		<div id="derniers_inscrits"><?php include(INCLUDE_DERNIERS_INSCRITS_HORS_CONNEXION); ?></div>
-		<?php echo connexionON(); ?>
+		<div id="derniers_inscrits"><?php include('./interface/derniers-inscrits.php'); ?></div>
+		<?php
+		function connexionON(){
+	?>
+	<script language="javascript">
+		new Ajax.PeriodicalUpdater(
+		    'maj',
+		    '<?php echo HTTP_SERVEUR.'interface/maj.php'; ?>',
+		    {
+		        frequency: ,
+		        decay:1
+		    }
+		);
+    </script>
+	<?php
+}
+		 echo connexionON(); 
+		 ?>
 	</div>
 </div>
-<div id="footer"><?php include(INCLUDE_FOOTER); ?></div>
+<div id="footer"><?php
+include('./interface/footer.php');
+
+?></div>
 <!-- FIN EXTERIEUR -->
 </body>
 </html>

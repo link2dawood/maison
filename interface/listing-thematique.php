@@ -12,7 +12,7 @@
 		echo $metier->afficherExtraitOFFLINEetONLINEAnnoncesAvecOptions($premierMembresAafficher, $nombreMembresParPage, $table,$type,"","couchsurfing");
 	}
 	else{
-		echo '<p style="padding-top:80px;padding-bottom:420px;text-align:center;font-size:16px;">'.PAS_DE_RESULTAT.'</p>';
+		echo '<p style="padding-top:80px;padding-bottom:420px;text-align:center;font-size:16px;"></p>';
 	}
 				
 ?>

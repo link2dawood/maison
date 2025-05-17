@@ -68,6 +68,13 @@ if (!defined('HTTP_ALLEMANDE')) define('HTTP_ALLEMANDE', 'http://localhost/maiso
 if (!defined('RACINE_ANGLAIS')) define('RACINE_ANGLAIS', '/en/');
 if (!defined('RACINE_ESPAGNOL')) define('RACINE_ESPAGNOL', '/es/');
 if (!defined('RACINE_ALLEMANDE')) define('RACINE_ALLEMANDE', '/de/');
+if (!defined('PAYS_TOP'))define('PAYS_TOP', '--- Choisir un pays ---');
+if (!defined('PAYS_FRANCE_ID'))define('PAYS_FRANCE_ID', 1);
+if (!defined('PAYS_FRANCE'))define('PAYS_FRANCE', 'France');
+if (!defined('PAYS_BELGIQUE_ID'))define('PAYS_BELGIQUE_ID', 2);
+if (!defined('PAYS_BELGIQUE'))define('PAYS_BELGIQUE', 'Belgique');
+if (!defined('PAYS_SUISSE_ID'))define('PAYS_SUISSE_ID', 3);
+if (!defined('PAYS_SUISSE'))define('PAYS_SUISSE', 'Suisse');
 
 
 // D�tection de la langue avec structure am�lior�e
@@ -108,9 +115,9 @@ if (!defined('FILENAME_PAGE_PAIEMENT')) define('FILENAME_PAGE_PAIEMENT', 'paieme
 if (!defined('FILENAME_CONSEILS')) define('FILENAME_CONSEILS', 'conseils.php');
 if (!defined('FILENAME_CONTACT')) define('FILENAME_CONTACT', 'contact.php');
 if (!defined('FILENAME_INDEX')) define('FILENAME_INDEX', 'index.php');
- define('CONFIGURATION_CSS', HTTP_HOST.'/css/styles.css');
- define('CONFIGURATION_CSS_ADMIN', HTTP_HOST.'/css/admin.css');
- define('CONFIGURATION_LIGHTBOX_CSS', HTTP_HOST.'/css/lightbox.css');
+ if (!defined('CONFIGURATION_CSS'))define('CONFIGURATION_CSS', HTTP_HOST.'/css/styles.css');
+ if (!defined('CONFIGURATION_CSS_ADMIN'))define('CONFIGURATION_CSS_ADMIN', HTTP_HOST.'/css/admin.css');
+ if (!defined('CONFIGURATION_LIGHTBOX_CSS'))define('CONFIGURATION_LIGHTBOX_CSS', HTTP_HOST.'/css/lightbox.css');
  // ----------------------------------------
 // D�finition des fichiers JavaScript
 // ----------------------------------------
@@ -143,11 +150,11 @@ if (!defined('CONFIGURATION_ACCORDEON_JS')) {
     );
 }
 
- define('CONFIGURATION_TCHAT_CSS', HTTP_HOST.'/css/tchat.css');
- define('CONFIGURATION_GALERIE_CSS', HTTP_HOST.'/css/galerie.css');
+ if (!defined('CONFIGURATION_TCHAT_CSS'))define('CONFIGURATION_TCHAT_CSS', HTTP_HOST.'/css/tchat.css');
+ if (!defined('CONFIGURATION_GALERIE_CSS'))define('CONFIGURATION_GALERIE_CSS', HTTP_HOST.'/css/galerie.css');
  //D�finition de la page correctif CSS pour IE
- define('CONFIGURATION_CSS_CORRECTION_IE', HTTP_HOST.'/css/corrections_ie.css');
- define('CONFIGURATION_CSS_CALENDRIER', HTTP_HOST.'/css/calendrier.css');
+ if (!defined('CONFIGURATION_CSS_CORRECTION_IE'))define('CONFIGURATION_CSS_CORRECTION_IE', HTTP_HOST.'/css/corrections_ie.css');
+ if (!defined('CONFIGURATION_CSS_CALENDRIER'))define('CONFIGURATION_CSS_CALENDRIER', HTTP_HOST.'/css/calendrier.css');
  // D�claration des balises meta noindex
 if (!defined('CONFIGURATION_ROBOTS_NOFOLLOW')) {
     define('CONFIGURATION_ROBOTS_NOFOLLOW',
@@ -1311,5 +1318,5 @@ if (!function_exists('includeLanguage')) {
 
 
 // Charset global
-header('Content-Type: text/html; charset=utf-8');
+
 ini_set('default_charset', 'utf-8');
