@@ -1447,15 +1447,19 @@ function getAffichageAleatoire($partie){
 		$req->ajoutHistoriquePaiementMYSQL($pseudo, $date_ouverture,$cloture,$type_abonnement,$abonnement);
 	}
 	
-	function compterUnElement($table,$champ,$valeur){
-		//Instanciation de la classe requete SQL
-		$req = new CompBDD();
-		$result = $req->compterElement($table,$champ,$valeur);
-		while ($mysql = mysql_fetch_object($result)){
-			$compter = $mysql->compter;
-		}
-		return $compter;
-	}
+function compterUnElement($table, $champ, $valeur) {
+    // Instanciation de la classe requete SQL
+    $req = new CompBDD();
+    $result = $req->compterElement($table, $champ, $valeur);
+
+    $compter = 0;
+    if ($result && $row = $result->fetch_object()) {
+        $compter = $row->compter ?? 0;
+    }
+
+    return $compter;
+}
+
 	
 	// Retourne le nombre de ligne de donnée retournées par la requête
 	function getNbRows($res){				
