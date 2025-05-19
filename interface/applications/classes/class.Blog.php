@@ -21,13 +21,17 @@ class Blog{
 	}
 	
 	//Lister les catégories du Blog
-	function getCategoriesBlog(){
-		$req = new CompBDD();
-		$mysql = $req->getCategoriesBlogMYSQL();
-		while($res = mysql_fetch_object($mysql)){
-			echo '<li>- <a href="'.HTTP_BLOG.'categorie-'.$res->id_cat.'.php" title="'.$res->cat.'">'.$res->cat.'</a></li>';
-		}
-	}
+function getCategoriesBlog() {
+    $req = new CompBDD();
+    $result = $req->getCategoriesBlogMYSQL(); // Should return a mysqli_result
+
+    if ($result) {
+        while ($res = $result->fetch_object()) {
+            echo '<li>- <a href="' . HTTP_BLOG . 'categorie-' . $res->id_cat . '.php" title="' . htmlspecialchars($res->cat) . '">' . htmlspecialchars($res->cat) . '</a></li>';
+        }
+    }
+}
+
 	
 	//Développement du titre des articles d'une catégorie
 	function listerTitresArticlesBlog($numeroCategorie){
