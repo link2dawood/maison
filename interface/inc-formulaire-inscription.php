@@ -11,7 +11,7 @@ $nb = mt_rand(0, 100000);
 		<table>
 			<tr>
 				<td class="info"><?php echo FORMULAIRE_MON_PSEUDO; ?></td>
-				<td><input type="text" name="pseudo" value="<?php echo $_SESSION['form_inscpt_pseudo']; ?>"/></td>
+				<td><input type="text" name="pseudo" value="<?php echo $_SESSION['form_inscpt_pseudo'] ?? ''; ?>"/></td>
 			</tr>
 			<tr>
 				<td class="info"><?php echo FORMULAIRE_MOT_DE_PASSE; ?></td>
@@ -23,7 +23,7 @@ $nb = mt_rand(0, 100000);
 			</tr>
 			<tr>
 				<td class="info"><?php echo FORMULAIRE_EMAIL; ?> <input type="hidden" name="num"  value="<?php echo $nb; ?>" /></td>
-				<td><input type="text" name="email" value="<?php echo $_SESSION['form_inscpt_email']; ?>"/></td>
+				<td><input type="text" name="email" value="<?php echo $_SESSION['form_inscpt_email'] ?? ''; ?>"/></td>
 			</tr>
 			<tr>
 				<td class="info">
