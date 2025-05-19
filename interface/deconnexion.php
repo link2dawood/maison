@@ -2,9 +2,16 @@
 if ( isset($_GET['PHPSESSID']) || isset($_COOKIE[session_name()]) ){
 		session_start() ;
 }
-include('../interface/applications/commun/configuration.php');
-include(INCLUDE_FCTS_UTILE);
-include(INCLUDE_CLASS_METIER);
+include('../interface/applications/commun/fct-utile.php');
+include('../config.php');
+// include(INCLUDE_FCTS_UTILE);
+// include(INCLUDE_CLASS_ESPACE_MEMBRE);
+include('../interface/applications/classes/class.EspaceMembre.php');
+$membre = new EspaceMembre();
+include('../interface/applications/classes/class.Metier.php');
+
+
+require_once('../interface/applications/commun/configuration.php');
 $metier = new Metier();
 
 //***************************************************
