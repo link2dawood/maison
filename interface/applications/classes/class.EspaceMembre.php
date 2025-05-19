@@ -1011,17 +1011,21 @@ function afficherPaysEspaceMembre($name, $language) {
 		return $id_expediteur;
 	}
 	
-	function getTableauTarif($ref){
-		$req = new CompBDD();
-		$array = array();
-		
-		$mysql = $req->getTableauTarifMYSQL($ref);
-		while($sql = mysql_fetch_object($mysql)){
-			array_push($array, '<td><a href="'.HTTP_SERVEUR.FILENAME_PUBLICITE.'?action='.$sql->id.'&step=1">'.$sql->montant.' &euro;</a></td>');
-		}
-		
-		return $array;
-	}
+function getTableauTarif($ref) {
+    $req = new CompBDD();
+    $array = [];
+
+    $result = $req->getTableauTarifMYSQL($ref); // Should return a mysqli_result
+
+    if ($result) {
+        while ($sql = $result->fetch_object()) {
+            $array[] = '<td><a href="' . HTTP_SERVEUR . FILENAME_PUBLICITE . '?action=' . $sql->id . '&step=1">' . htmlspecialchars($sql->montant) . ' &euro;</a></td>';
+        }
+    }
+
+    return $array;
+}
+
 	
 	function getTable($table, $champ, $valeur){
 		//Instanciation de la classe requete SQL

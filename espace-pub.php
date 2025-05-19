@@ -2,14 +2,20 @@
 if (isset($_GET['PHPSESSID']) || isset($_COOKIE[session_name()])){
 	session_start() ;
 }
-include('./interface/applications/commun/configuration.php');
-include(INCLUDE_FCTS_UTILE);
-include(INCLUDE_CLASS_ESPACE_MEMBRE);
+include('./interface/applications/commun/fct-utile.php');
+include('./config.php');
+// include(INCLUDE_FCTS_UTILE);
+// include(INCLUDE_CLASS_ESPACE_MEMBRE);
+include('./interface/applications/classes/class.EspaceMembre.php');
 $membre = new EspaceMembre();
-include(INCLUDE_CLASS_METIER);
+include('./interface/applications/classes/class.Metier.php');
+
+
+require_once('./interface/applications/commun/configuration.php');
 $metier = new Metier();
 
-$metier->controleConnexionMetier(time(), $_SESSION['id_client'], $_SESSION['pseudo_client']);
+
+
 
 //TRAITEMENT DU SUPPORT DE LANGUE
 includeLanguage(RACINE, LANGUAGE, FILENAME_PUBLICITE);
@@ -20,7 +26,7 @@ includeLanguage(RACINE, LANGUAGE, FILENAME_PUBLICITE);
     <title><?php echo HEADER_TITLE; ?></title>
 	<meta name="description" content="<?php echo HEADER_DESCRIPTION; ?>"/>
 	<meta name="keywords" content="<?php echo HEADER_KEYWORDS; ?>"/>
-	<meta http-equiv="Content-Type" content="<?php echo CONFIGURATION_CONTENT; ?>; charset=<?php echo CONFIGURATION_CHARSET; ?>" />
+
     <link href="<?php echo CONFIGURATION_CSS; ?>" media="screen" rel="stylesheet" type="text/css" />
     <link href="<?php echo CONFIGURATION_LIGHTBOX_CSS; ?>" media="screen" rel="stylesheet" type="text/css" />
     <?php echo afficherMetaLangue(LANGUAGE); ?>
@@ -40,11 +46,11 @@ includeLanguage(RACINE, LANGUAGE, FILENAME_PUBLICITE);
 					<li><?php echo PHRASE_LOGO; ?></li>
 				</ul>
 			</div>
-			<?php echo afficherLogin($_SESSION['pseudo_client'], HTTP_SERVEUR); ?>
+	
 			<h1><?php echo H1_DE_LA_PAGE; ?></h1>
 		</div>
 		<!-- MENU -->
-		<div id="menu"><?php getMenu($_SESSION['pseudo_client']); ?></div>
+		<div id="menu"><?php getMenu($_SESSION['pseudo_client'] ?? ''); ?></div>
 		<!-- PARTIE ADSENSE -->
 		<div id="adsense"><?php include(INCLUDE_ADSENSE); ?></div>
 		<!-- RECHERCHE PAR CONNEXION -->
@@ -63,16 +69,7 @@ includeLanguage(RACINE, LANGUAGE, FILENAME_PUBLICITE);
 					<td class="titre_tchat">
 						<div class="bord_gauche"></div>
 						<div class="corps_top_tchat">
-						<?php
-						if(empty($_SESSION['pseudo_client'])){
-							//ON NE FAIT RIEN...
-						}
-						else{
-							$msg_envoyes = $membre->compterMessagesDuMembreCommeExpediteur(TABLE_MESSENGER, $_SESSION['id_client'], $_SESSION['pseudo_client'], "non");
-							$recus = $membre->compterMessagesDuMembreCommeDestinataire(TABLE_MESSENGER, $_SESSION['id_client'], $_SESSION['pseudo_client'], "non");
-						}
-						echo afficherCompteurMessages($_SESSION['pseudo_client'], $recus, $msg_envoyes);
-						?></div>
+                        </div>
 						<div class="bord_droit"></div>
 					</td>
 				</tr>
@@ -150,110 +147,6 @@ includeLanguage(RACINE, LANGUAGE, FILENAME_PUBLICITE);
 								echo '</tr>';
 								
 								echo '</table>';
-							if(is_numeric($_GET['action']) AND $_GET['action'] != ""){
-								$mesValeurs = $membre->getTable(TABLE_GRILLE_TARIFAIRE, "id", $_GET['action']);
-								echo '<table id="h3_tarif">' .
-										'<tr>' .
-										'<td>'.GRILLE_TARIFAIRE_PAGE.' '.$mesValeurs->partie.'</td>' .
-										'<td>'.GRILLE_TARIFAIRE_JOUR.' '.$mesValeurs->jour.'</td>' .
-										'<td>'.GRILLE_TARIFAIRE_MONTANT.' '.$mesValeurs->montant.' &euro;</td>' .
-										'</tr>' .
-										'</table>';
-								if($_GET['step'] == "1"){
-									echo '<div id="f_charger_img">' .
-											'<form action="'.HTTP_SERVEUR.FILENAME_PUBLICITE.'?action='.$_GET['action'].'&step=2" method="post" onSubmit="return checkrequired(this)" name="formulaire">' .
-											'<table>' .
-											'<tr>' .
-											'<td colspan="2"><strong>'.GRILLE_TARIFAIRE_ETAPE2_TEXTE.'</strong></td>' .
-											'</tr>' .
-											'<tr>' .
-											'<td>'.LIBELLE_1.'</td>' .
-											'<td><input type="text" name="requiredLien"/> '.LIBELLE_3.'</td>' .
-											'</tr>' .
-											'<tr>' .
-											'<td>'.LIBELLE_2.'</td>' .
-											'<td><input type="text" name="requiredHttp"/></td>' .
-											'</tr>' .
-											'<tr>' .
-											'<td><strong>'.LIBELLE_0.'</strong></td>' .
-											'<td><input type="text" name="requiredEmail"/></td>' .
-											'</tr>' .
-											'<tr>' .
-											'<td colspan="2" style="text-align:center;"><input type="submit" value="'.SUBMIT.'"/></td>' .
-											'</tr>' .
-											'</table>' .
-											'</form>' .
-											'</div>';
-								}
-								elseif($_GET['step'] == "2"){
-									//TRAITEMENT DU PAIEMENT
-									if(empty($_POST['requiredLien']) OR empty($_POST['requiredHttp']) OR empty($_POST['requiredEmail'])){
-										redirection(0, HTTP_SERVEUR.FILENAME_PUBLICITE.'?action='.$_GET['action'].'&step=1');
-									}
-									else{
-										$syntaxeEmail = conformEmail(minuscule($_POST['requiredEmail']));
-										$rest = substr(minuscule($_POST['requiredLien']), -3);
-										$debut = substr(minuscule($_POST['requiredHttp']), 0, 7);
-										$ht = 'http://';
-										$formAutorise = "#^jpg|png|gif$#i";
-										if(preg_match($formAutorise,$rest)){
-											$ext = 1;//C'est bon !
-										}
-										else{
-											$ext = 0;
-										}
-										
-										if($syntaxeEmail == 0){
-											echo "<p style=\"text-align:center;font-size:18px;font-weight:bolder;\"><img src=\"".HTTP_IMAGE."progressbar.gif\" alt=\"progressbar\" /><br />".GRILLE_TARIFAIRE_ERREUR_SYNTAXE_EMAIL."</p>";
-											redirection('3', HTTP_SERVEUR.FILENAME_PUBLICITE.'?action='.$_GET['action'].'&step=1');
-										}
-										elseif($ext == 0){
-											echo "<p style=\"text-align:center;font-size:18px;font-weight:bolder;\"><img src=\"".HTTP_IMAGE."progressbar.gif\" alt=\"progressbar\" /><br />".GRILLE_TARIFAIRE_ERREUR_FORMAT_ACCEPTE."</p>";
-											redirection('3', HTTP_SERVEUR.FILENAME_PUBLICITE.'?action='.$_GET['action'].'&step=1');
-										}
-										else{
-											if($debut == $ht){
-												$http = minuscule($_POST['requiredHttp']);
-											}
-											else{
-												$http = $ht.minuscule($_POST['requiredHttp']);
-											}
-											
-											//ETAPE PAIEMENT...
-											mt_srand((float) microtime()*1000000);
-											$nb_aleatoire = mt_rand(0, 100000);
-											$confirm = $membre->getChamps("id", TABLE_PAIEMENT_ATTENTE_CONFIRMATION, "email", minuscule($_POST['requiredEmail']));
-											if(!empty($confirm)){
-												//ON NE FAIT RIEN...ON SECURISE LES DONNEES POUR QUELLES SOIENT UNIQUE DANS LA TABLE !
-											}
-											else{
-												$metier->ajouterDonneesEnAttente(minuscule($_POST['requiredLien']),
-																			$http,
-																			minuscule($_POST['requiredEmail']), 
-																			"",
-																			md5($nb_aleatoire),
-																			minuscule($_GET['action']));
-											}
-											//Bouton PAYPAL
-											$email = EMAIL_PAYPAL;
-											$nom_article = GRILLE_TARIFAIRE_PAGE.' '.$mesValeurs->partie.' / '.GRILLE_TARIFAIRE_JOUR.' '.$mesValeurs->jour.' / '.GRILLE_TARIFAIRE_MONTANT.' '.$mesValeurs->montant;
-											$prix = $mesValeurs->montant;
-											$url_paypal = "https://www.paypal.com/cgi-bin/webscr";
-											//$url_paypal = "https://www.sandbox.paypal.com/cgi-bin/webscr";
-											$url_ok = HTTP_SERVEUR.'interface/'.FILENAME_PAIEMENT_ACCEPTE.'?im='.minuscule($_POST['requiredEmail']).'&ind='.md5($nb_aleatoire);
-											$url_erreur = HTTP_SERVEUR.'interface/'.FILENAME_PAIEMENT_REFUSE.'?im='.minuscule($_POST['requiredEmail']).'&ind='.md5($nb_aleatoire);
-											$devis = "EUR";
-												
-											echo '<div style="text-align:center;margin-top:10px;">';
-											echo boutonPaiementPAYPAL($url_paypal, $email, $nom_article, $prix, $url_ok, $url_erreur, $devis);
-											echo '</div>';
-										}
-									}	
-								}
-								else{
-									redirection(0, HTTP_SERVEUR.FILENAME_PUBLICITE);
-								}
-							}
 						
 							?>
 						 </div>
