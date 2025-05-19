@@ -6,7 +6,7 @@
  $maPub = $membre->getAffichageAleatoire("A");
 
 if(empty($maPub->id)){
-	echo <!-- >'<div style="text-align:center;">' .
+	echo '<div style="text-align:center;">' .
 	
 			'<a href="'.HTTP_SERVEUR.FILENAME_PUBLICITE.'" style="font-size:10px;">'.ESPACE_PUBLICITAIRE_LIEN.'</a>' .
 				'</div>';

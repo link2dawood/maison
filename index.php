@@ -63,7 +63,7 @@ $pseudo_client = $_SESSION['pseudo_client'] ?? 'Invité';
                     <li><?php echo PHRASE_LOGO; ?></li>
                 </ul>
             </div>
-            <?php echo afficherLogin($_SESSION['pseudo_client'], HTTP_SERVEUR); ?>
+         
             <h1><?php echo BALISE_H1; ?></h1>
         </div>
         <!-- PARTIE BANNIERE -->

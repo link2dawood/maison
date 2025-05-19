@@ -15,6 +15,7 @@ $metier = new Metier();
 
 
 
+
 //TRAITEMENT DU SUPPORT DE LANGUE
 includeLanguage(RACINE, LANGUAGE, FILENAME_COUCHSURFING);
 ?>

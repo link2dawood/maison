@@ -68,7 +68,7 @@ modifierUrlsExotiques($UrlTransformation, $page, minuscule($_GET['type'] ?? ''),
 			<h1><?php echo ajoutCouch(minuscule($_GET['type']), $type_echange); ?> <?php echo $pays; ?></h1>
 		</div>
 		<!-- MENU -->
-		<div id="menu"><?php getMenu($_SESSION['pseudo_client']); ?></div>
+		<div id="menu"><?php getMenu($_SESSION['pseudo_client'] ?? 'Invité'); ?></div>
 		<!-- PARTIE ADSENSE -->
 		<div id="adsense"><?php include(INCLUDE_ADSENSE); ?></div>
 		<!-- RECHERCHE PAR CONNEXION -->
@@ -81,19 +81,7 @@ modifierUrlsExotiques($UrlTransformation, $page, minuscule($_GET['type'] ?? ''),
 					<td class="titre_developpement">
 						<div class="bord_gauche"></div>
 						<div class="corps_top_developpement">
-							<?php
-							//MAJ PAGINATION
-							$element = majPagination(NOMBRE_ANNONCE_PAR_PAGE, $metier->compterMembresSuivantOptions($table,minuscule($_GET['type']),minuscule($_GET['choix_pays']),"liste"));
-							$nombreDePages = $element;
-							if (isset($page)){
-								 if ($page <= $nombreDePages || ($_GET['page'] ?? 0) == 0) {
-								//ON NE FAIT RIEN...
-								}
-								else{
-									echo '<meta http-equiv="refresh" content="0; URL='.HTTP_SERVEUR.FILENAME_ANNONCES_ECHANGE_MAISON.'?page='.$nombreDePages.'&type='.minuscule($_GET['type']).'&choix_pays='.minuscule($_GET['choix_pays']).'">';
-								}
-							}
-							?>	
+
 							<div id="pagination">
 								<table class="navigation">
 									<tr>

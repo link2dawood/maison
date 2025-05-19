@@ -2,16 +2,21 @@
 if (isset($_GET['PHPSESSID']) || isset($_COOKIE[session_name()])){
 	session_start() ;
 }
-include('../interface/applications/commun/configuration.php');
-include(INCLUDE_FCTS_UTILE);
-include(INCLUDE_CLASS_ESPACE_MEMBRE);
+include('../interface/applications/commun/fct-utile.php');
+include('../config.php');
+// include(INCLUDE_FCTS_UTILE);
+// include(INCLUDE_CLASS_ESPACE_MEMBRE);
+include('../interface/applications/classes/class.EspaceMembre.php');
 $membre = new EspaceMembre();
-include(INCLUDE_CLASS_METIER);
+include('../interface/applications/classes/class.Metier.php');
+
+
+require_once('../interface/applications/commun/configuration.php');
 $metier = new Metier();
 
-$metier->controleConnexionMetier(time(), $_SESSION['id_client'], $_SESSION['pseudo_client']);
 
-$msg_stockes = $membre->compterTousLesMessages(TABLE_MESSAGERIE,$_SESSION['id_client']);
+
+
 
 //TRAITEMENT DU SUPPORT DE LANGUE
 includeLanguage(RACINE, LANGUAGE, FILENAME_COURRIER);
@@ -22,7 +27,7 @@ includeLanguage(RACINE, LANGUAGE, FILENAME_COURRIER);
     <title><?php echo HEADER_TITLE; ?></title>
 	<meta name="description" content="<?php echo HEADER_DESCRIPTION; ?>"/>
 	<meta name="keywords" content="<?php echo HEADER_KEYWORDS; ?>"/>
-	<meta http-equiv="Content-Type" content="<?php echo CONFIGURATION_CONTENT; ?>; charset=<?php echo CONFIGURATION_CHARSET; ?>" />
+
     <link href="<?php echo CONFIGURATION_CSS; ?>" media="screen" rel="stylesheet" type="text/css" />
     <link href="<?php echo CONFIGURATION_LIGHTBOX_CSS; ?>" media="screen" rel="stylesheet" type="text/css" />
     <?php echo afficherMetaLangue(LANGUAGE); ?>
@@ -44,22 +49,22 @@ var requiredRevision = 28;
 // -->
 </script>
 	<?php
-	if($_GET['action'] == "ecrire-message-video"){
-		echo '<link rel="stylesheet" type="text/css" href="'.HTTP_FLASH.'video/imageshistory/history.css" />' ."\n".
-			 '<script src="'.HTTP_FLASH.'video/AC_OETags.js" language="javascript"></script>'."\n" .
-			 '<script src="'.HTTP_FLASH.'video/history/history.js" language="javascript"></script>'."\n";
-	}
-	elseif($_GET['action'] == "ecrire-message-audio"){
-		echo '<link rel="stylesheet" type="text/css" href="'.HTTP_FLASH.'audio/imageshistory/history.css" />' ."\n".
-			 '<script src="'.HTTP_FLASH.'audio/AC_OETags.js" language="javascript"></script>'."\n" .
-			 '<script src="'.HTTP_FLASH.'audio/history/history.js" language="javascript"></script>'."\n";
-	}
-	else{
-		//ON FAIT RIEN...
-	}
+	// if($_GET['action'] == "ecrire-message-video"){
+	// 	echo '<link rel="stylesheet" type="text/css" href="'.HTTP_FLASH.'video/imageshistory/history.css" />' ."\n".
+	// 		 '<script src="'.HTTP_FLASH.'video/AC_OETags.js" language="javascript"></script>'."\n" .
+	// 		 '<script src="'.HTTP_FLASH.'video/history/history.js" language="javascript"></script>'."\n";
+	// }
+	// elseif($_GET['action'] == "ecrire-message-audio"){
+	// 	echo '<link rel="stylesheet" type="text/css" href="'.HTTP_FLASH.'audio/imageshistory/history.css" />' ."\n".
+	// 		 '<script src="'.HTTP_FLASH.'audio/AC_OETags.js" language="javascript"></script>'."\n" .
+	// 		 '<script src="'.HTTP_FLASH.'audio/history/history.js" language="javascript"></script>'."\n";
+	// }
+	// else{
+	// 	//ON FAIT RIEN...
+	// }
 	
 	if(empty($_GET['action']) OR $_GET['action'] == "messages-envoyes"){
-		echo afficherLimiteStockage($msg_stockes);
+		// echo afficherLimiteStockage($msg_stockes);
 	}
 	?>
 </head>
@@ -75,7 +80,7 @@ var requiredRevision = 28;
 					<li><?php echo PHRASE_LOGO; ?></li>
 				</ul>
 			</div>
-			<?php echo afficherLogin($_SESSION['pseudo_client'], HTTP_SERVEUR); ?>
+			
 			<h1><?php echo H1; ?></h1>
 		</div>
 		<!-- MENU -->
@@ -122,16 +127,7 @@ var requiredRevision = 28;
 					<td class="titre_tchat">
 						<div class="bord_gauche"></div>
 						<div class="corps_top_tchat">
-						<?php
-						if(empty($_SESSION['pseudo_client'])){
-							//ON NE FAIT RIEN...
-						}
-						else{
-							$msg_envoyes = $membre->compterMessagesDuMembreCommeExpediteur(TABLE_MESSENGER, $_SESSION['id_client'], $_SESSION['pseudo_client'], "non");
-							$recus = $membre->compterMessagesDuMembreCommeDestinataire(TABLE_MESSENGER, $_SESSION['id_client'], $_SESSION['pseudo_client'], "non");
-						}
-						echo afficherCompteurMessages($_SESSION['pseudo_client'], $recus, $msg_envoyes);
-						?></div>
+</div>
 						<div class="bord_droit"></div>
 					</td>
 				</tr>

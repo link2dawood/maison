@@ -2,14 +2,19 @@
 if (isset($_GET['PHPSESSID']) || isset($_COOKIE[session_name()])){
 	session_start() ;
 }
-include('./interface/applications/commun/configuration.php');
-include(INCLUDE_FCTS_UTILE);
-include(INCLUDE_CLASS_ESPACE_MEMBRE);
+include('./interface/applications/commun/fct-utile.php');
+include('./config.php');
+// include(INCLUDE_FCTS_UTILE);
+// include(INCLUDE_CLASS_ESPACE_MEMBRE);
+include('./interface/applications/classes/class.EspaceMembre.php');
 $membre = new EspaceMembre();
-include(INCLUDE_CLASS_METIER);
+include('./interface/applications/classes/class.Metier.php');
+
+
+require_once('./interface/applications/commun/configuration.php');
 $metier = new Metier();
 
-$metier->controleConnexionMetier(time(), $_SESSION['id_client'], $_SESSION['pseudo_client']);
+
 
 //TRAITEMENT DU SUPPORT DE LANGUE
 includeLanguage(RACINE, LANGUAGE, FILENAME_ECHANGE_MAISON);
@@ -20,7 +25,7 @@ includeLanguage(RACINE, LANGUAGE, FILENAME_ECHANGE_MAISON);
     <title><?php echo HEADER_TITLE; ?></title>
 	<meta name="description" content="<?php echo HEADER_DESCRIPTION; ?>"/>
 	<meta name="keywords" content="<?php echo HEADER_KEYWORDS; ?>"/>
-	<meta http-equiv="Content-Type" content="<?php echo CONFIGURATION_CONTENT; ?>; charset=<?php echo CONFIGURATION_CHARSET; ?>" />
+	<meta http-equiv="Content-Type" content="" charset="" />
     <link href="<?php echo CONFIGURATION_CSS; ?>" media="screen" rel="stylesheet" type="text/css" />
     <link href="<?php echo CONFIGURATION_LIGHTBOX_CSS; ?>" media="screen" rel="stylesheet" type="text/css" />
     <?php echo afficherMetaLangue(LANGUAGE); ?>
@@ -40,7 +45,7 @@ includeLanguage(RACINE, LANGUAGE, FILENAME_ECHANGE_MAISON);
 					<li><?php echo PHRASE_LOGO; ?></li>
 				</ul>
 			</div>
-			<?php echo afficherLogin($_SESSION['pseudo_client'], HTTP_SERVEUR); ?>
+
 			<h1><?php echo H1_DE_LA_PAGE; ?></h1>
 		</div>
 		<!-- MENU -->
@@ -61,19 +66,10 @@ includeLanguage(RACINE, LANGUAGE, FILENAME_ECHANGE_MAISON);
 							//MAJ PAGINATION
 							$table = TABLE_LISTING_ECHANGE_MAISON;
 							$total = $metier->compterMembresSuivantOptions($table,"","","echange");
-							$page = defautPage($_GET['page']);
+							$page = defautPage($_GET['page'] ?? '');
 							$type = 1;
 							
-							$nombreDePages = majPagination(NOMBRE_ANNONCE_PAR_PAGE, $total);
-							
-							if (isset($page)){
-								if ($page<=$nombreDePages OR $_GET['page'] == 0){
-								//ON NE FAIT RIEN...
-								}
-								else{
-									echo '<meta http-equiv="refresh" content="0; URL='.HTTP_SERVEUR.FILENAME_ECHANGE_MAISON.'?page='.$nombreDePages.'">';
-								}
-							}
+
 							?>	
 							<div id="pagination">
 								<table class="navigation">
@@ -97,7 +93,7 @@ includeLanguage(RACINE, LANGUAGE, FILENAME_ECHANGE_MAISON);
 											?>
 										</td>
 										<td class="li_2"><?php echo $total.NOMBRE_RESULTAT; ?></td>
-										<td class="li_3"><?php echo PAGE.$page.'/'.$nombreDePages; ?></td>
+										<td class="li_3"></td>
 										<td class="li_4">
 										<?php 
 											//-------- BOUTON PAGINATION AVANCER --------------
@@ -133,16 +129,7 @@ includeLanguage(RACINE, LANGUAGE, FILENAME_ECHANGE_MAISON);
 					<td class="titre_tchat">
 						<div class="bord_gauche"></div>
 						<div class="corps_top_tchat">
-						<?php
-						if(empty($_SESSION['pseudo_client'])){
-							//ON NE FAIT RIEN...
-						}
-						else{
-							$msg_envoyes = $membre->compterMessagesDuMembreCommeExpediteur(TABLE_MESSENGER, $_SESSION['id_client'], $_SESSION['pseudo_client'], "non");
-							$recus = $membre->compterMessagesDuMembreCommeDestinataire(TABLE_MESSENGER, $_SESSION['id_client'], $_SESSION['pseudo_client'], "non");
-						}
-						echo afficherCompteurMessages($_SESSION['pseudo_client'], $recus, $msg_envoyes);
-						?></div>
+</div>
 						<div class="bord_droit"></div>
 					</td>
 				</tr>
