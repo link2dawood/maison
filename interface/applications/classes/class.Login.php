@@ -64,19 +64,23 @@ class Login{
 		return $compter;
 	}
 	
-	function controleLoginAdmin($pseudo, $motDePasse){
-		$req = new CompBDD();
-		$array = array();
-		
-		$mysql = $req->controleLoginAdminMYSQL($pseudo, $motDePasse);
-		while($sql = mysql_fetch_object($mysql)){
-			array_push($array, $sql->pseudo); // 0
-			array_push($array, $sql->passe); // 1
-			array_push($array, $sql->date_last_visite); // 2
-		}
-		
-		return $array;
-	}
+function controleLoginAdmin(string $pseudo, string $motDePasse): array
+{
+    $req = new CompBDD();
+    $array = [];
+
+    // Assume this returns a mysqli_result
+    $result = $req->controleLoginAdminMYSQL($pseudo, $motDePasse);
+
+    while ($row = $result->fetch_object()) {
+        $array[] = $row->pseudo;            // 0
+        $array[] = $row->passe;             // 1
+        $array[] = $row->date_last_visite;  // 2
+    }
+
+    return $array;
+}
+
 	
 	function majderniereConnexionAdmin($login, $heure){
 		$req = new CompBDD();

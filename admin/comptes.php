@@ -2,12 +2,16 @@
 if (isset($_GET['PHPSESSID']) || isset($_COOKIE[session_name()])){
 	session_start() ;
 }
-include('../interface/applications/commun/configuration.php');
-include(INCLUDE_FCTS_UTILE);
-include(INCLUDE_CLASS_ESPACE_MEMBRE);
+include('../interface/applications/commun/fct-utile.php');
+include('../config.php');
+// include(INCLUDE_FCTS_UTILE);
+// include(INCLUDE_CLASS_ESPACE_MEMBRE);
+include('../interface/applications/classes/class.EspaceMembre.php');
 $membre = new EspaceMembre();
-include(INCLUDE_CLASS_METIER);
-$metier = new Metier();
+include('../interface/applications/classes/class.Metier.php');
+
+
+require_once('../interface/applications/commun/configuration.php');
 
 //TRAITEMENT DU SUPPORT DE LANGUE
 includeLanguage(RACINE, LANGUAGE, FILENAME_INDEX);
@@ -18,7 +22,7 @@ includeLanguage(RACINE, LANGUAGE, FILENAME_INDEX);
     <title>ADMINISTRATION</title>
 	<meta name="description" content=""/>
 	<meta name="keywords" content=""/>
-	<meta http-equiv="Content-Type" content="<?php echo CONFIGURATION_CONTENT; ?>; charset=<?php echo CONFIGURATION_CHARSET; ?>" />
+
     <link href="<?php echo CONFIGURATION_CSS; ?>" media="screen" rel="stylesheet" type="text/css" />
     <link href="<?php echo CONFIGURATION_LIGHTBOX_CSS; ?>" media="screen" rel="stylesheet" type="text/css" />
     <link href="<?php echo CONFIGURATION_CSS_CALENDRIER; ?>" media="screen" rel="stylesheet" type="text/css" />
@@ -28,9 +32,7 @@ includeLanguage(RACINE, LANGUAGE, FILENAME_INDEX);
     <?php echo CONFIGURATION_JS; ?>
 	<?php include(INCLUDE_COMPATIBILITE_NAVIGATEURS); ?>
 	<?php
-	if($_GET['action'] == "detail" OR $_GET['action'] == "modifier" OR $_GET['action'] == "modifier-derniers-inscrits"){
-		echo afficherEspaceStockage($membre->compterTousLesMessages(TABLE_MESSAGERIE,$_GET['id_compte']));
-	}
+
 	?>	
 </head>
 <body>
@@ -116,7 +118,7 @@ includeLanguage(RACINE, LANGUAGE, FILENAME_INDEX);
 			// NUMERO 2 --> COMPTER LE NOMBRE DE PAGES PAR DEFAUT
 			$nombreDePages  = ceil($TotalMembres / $nombreMembresParPage);
 									
-			$page = defautPage($_GET['page']);
+			$page = defautPage($_GET['page'] ?? '');
 							 
 			// NUMERO 3 --> DEFINIR LE PREMIER MESSAGE
 			$premierMembresAafficher = ($page - 1) * $nombreMembresParPage;
@@ -133,28 +135,29 @@ includeLanguage(RACINE, LANGUAGE, FILENAME_INDEX);
 									'<tr>' ."\n".
 										'<td>Tri: </td>' ."\n".
 										'<td><select name="tri">' .
-										'<option value="1" '.selectGestionAdmin(1, minuscule($_GET['tri'])).'>Ordre alphabétique</option>' .
-										'<option value="2" '.selectGestionAdmin(2, minuscule($_GET['tri'])).'>Echange logement</option>' .
-										'<option value="3" '.selectGestionAdmin(3, minuscule($_GET['tri'])).'>Couchsurfing</option>' .
-										'<option value="4" '.selectGestionAdmin(4, minuscule($_GET['tri'])).'>Offline</option>' .
-										'<option value="5" '.selectGestionAdmin(5, minuscule($_GET['tri'])).'>Online</option>' .
-										'<option value="6" '.selectGestionAdmin(6, minuscule($_GET['tri'])).'>Compte gratuit</option>' .
-										'<option value="7" '.selectGestionAdmin(7, minuscule($_GET['tri'])).'>Compte payant</option>' .
-										'<option value="8" '.selectGestionAdmin(8, minuscule($_GET['tri'])).'>Compte abonnement</option>' .
-										'<option value="9" '.selectGestionAdmin(9, minuscule($_GET['tri'])).'>Inscription : '.date("D d", time()).'</option>' .
-										'<option value="10" '.selectGestionAdmin(10, minuscule($_GET['tri'])).'>Compte avec photo</option>' .
-										'<option value="11" '.selectGestionAdmin(11, minuscule($_GET['tri'])).'>Compte avec audio</option>' .
-										'<option value="12" '.selectGestionAdmin(12, minuscule($_GET['tri'])).'>Compte avec vidéo</option>' .
-										'<option value="13" '.selectGestionAdmin(13, minuscule($_GET['tri'])).'>Compte désactivé</option>' .
-										'<option value="14" '.selectGestionAdmin(14, minuscule($_GET['tri'])).'>Photo non publiée</option' .
-										'<option value="15" '.selectGestionAdmin(15, minuscule($_GET['tri'])).'>Annonce en attente</option>' .
-										'<option value="16" '.selectGestionAdmin(16, minuscule($_GET['tri'])).'>Compte sans annonce</option>' .
-										'<option value="17" '.selectGestionAdmin(17, minuscule($_GET['tri'])).'>Carnet de voyage (en ligne)</option>' .
-										'<option value="18" '.selectGestionAdmin(18, minuscule($_GET['tri'])).'>Carnet de voyage (off)</option>' .
-										'<option value="19" '.selectGestionAdmin(19, minuscule($_GET['tri'])).'>Carnet avec galerie</option>' .
-										'<option value="20" '.selectGestionAdmin(20, minuscule($_GET['tri'])).'>Carnet avec vidéo</option>' .
-										'<option value="21" '.selectGestionAdmin(21, minuscule($_GET['tri'])).'>Carnet avec galerie (off)</option>' .
-										'<option value="22" '.selectGestionAdmin(22, minuscule($_GET['tri'])).'>Carnet avec vidéo (off)</option>' .
+										'<option value="1" '.selectGestionAdmin(1, minuscule($_GET['tri'] ?? '')).'>Ordre alphabétique</option>' .
+										'<option value="2" '.selectGestionAdmin(2, minuscule($_GET['tri'] ?? '')).'>Echange logement</option>' .
+										'<option value="3" '.selectGestionAdmin(3, minuscule($_GET['tri'] ?? '')).'>Couchsurfing</option>' .
+										'<option value="3" '.selectGestionAdmin(3, minuscule($_GET['tri'] ?? '')).'>Couchsurfing</option>' .
+										'<option value="4" '.selectGestionAdmin(4, minuscule($_GET['tri'] ?? '')).'>Offline</option>' .
+										'<option value="5" '.selectGestionAdmin(5, minuscule($_GET['tri'] ?? '')).'>Online</option>' .
+										'<option value="6" '.selectGestionAdmin(6, minuscule($_GET['tri'] ?? '')).'>Compte gratuit</option>' .
+										'<option value="7" '.selectGestionAdmin(7, minuscule($_GET['tri'] ?? '')).'>Compte payant</option>' .
+										'<option value="8" '.selectGestionAdmin(8, minuscule($_GET['tri'] ?? '')).'>Compte abonnement</option>' .
+										'<option value="9" '.selectGestionAdmin(9, minuscule($_GET['tri'] ?? '')).'>Inscription : '.date("D d", time()).'</option>' .
+										'<option value="10" '.selectGestionAdmin(10, minuscule($_GET['tri'] ?? '')).'>Compte avec photo</option>' .
+										'<option value="11" '.selectGestionAdmin(11, minuscule($_GET['tri'] ?? '')).'>Compte avec audio</option>' .
+										'<option value="12" '.selectGestionAdmin(12, minuscule($_GET['tri'] ?? '')).'>Compte avec vidéo</option>' .
+										'<option value="13" '.selectGestionAdmin(13, minuscule($_GET['tri'] ?? '')).'>Compte désactivé</option>' .
+										'<option value="14" '.selectGestionAdmin(14, minuscule($_GET['tri'] ?? '')).'>Photo non publiée</option' .
+										'<option value="15" '.selectGestionAdmin(15, minuscule($_GET['tri'] ?? '')).'>Annonce en attente</option>' .
+										'<option value="16" '.selectGestionAdmin(16, minuscule($_GET['tri'] ?? '')).'>Compte sans annonce</option>' .
+										'<option value="17" '.selectGestionAdmin(17, minuscule($_GET['tri'] ?? '')).'>Carnet de voyage (en ligne)</option>' .
+										'<option value="18" '.selectGestionAdmin(18, minuscule($_GET['tri'] ?? '')).'>Carnet de voyage (off)</option>' .
+										'<option value="19" '.selectGestionAdmin(19, minuscule($_GET['tri'] ?? '')).'>Carnet avec galerie</option>' .
+										'<option value="20" '.selectGestionAdmin(20, minuscule($_GET['tri'] ?? '')).'>Carnet avec vidéo</option>' .
+										'<option value="21" '.selectGestionAdmin(21, minuscule($_GET['tri'] ?? '')).'>Carnet avec galerie (off)</option>' .
+										'<option value="22" '.selectGestionAdmin(22, minuscule($_GET['tri'] ?? '')).'>Carnet avec vidéo (off)</option>' .
 										'</select>' .
 										' <input type="hidden" name="action" value="moteur-tri"/>' .
 										'</td>' ."\n".
@@ -179,7 +182,7 @@ includeLanguage(RACINE, LANGUAGE, FILENAME_INDEX);
 								'<table style="width:100%;">' ."\n".
 									'<tr>' ."\n".
 										'<td>N° de page:</td>' ."\n".
-										'<td><input type="text" name="page" value="'.defautPage($_GET['page']).'" size="11"/> <input type="hidden" name="action" value="'.$_GET['action'].'"/> <input type="hidden" name="tri" value="'.$_GET['tri'].'"/></td>' ."\n".
+										'<td><input type="text" name="page" value="'.defautPage($_GET['page'] ?? '').'" size="11"/> <input type="hidden" name="action" value=""/> <input type="hidden" name="tri" value=""/></td>' ."\n".
 										'<td><input type="submit" value="envoyer"/></td>' ."\n".
 									'</tr>' ."\n".
 								'</table>' ."\n".
@@ -231,20 +234,20 @@ includeLanguage(RACINE, LANGUAGE, FILENAME_INDEX);
 			echo '</table>' .
 					'</div>';
 								
-			echo '<p style="text-align:center;padding-top:7px;"><a href="'.HTTP_ADMIN.FILENAME_ADMIN_COMPTES.'?page='.$NombreMembresMini.'&action='.$_GET['action'].'&tri='.$_GET['tri'].'"><img src="'.HTTP_IMAGE.'fleche_droite.png" alt="fleche"/></a>';
+			echo '<p style="text-align:center;padding-top:7px;"><a href="'.HTTP_ADMIN.FILENAME_ADMIN_COMPTES.'?page='.$NombreMembresMini.'&action=&tri="><img src="'.HTTP_IMAGE.'fleche_droite.png" alt="fleche"/></a>';
 			//-----DEFINIR LE NOMBRE DE PAGES--------------------
 			if (isset($page)){
 				if ($page<=$nombreDePages OR $page == 1){
 					$MaxiPagesAffichees = $page + 9;
 						for ($a = $page ; $a <= $MaxiPagesAffichees ; $a++)	{
-							echo ' <a href="'.HTTP_ADMIN.FILENAME_ADMIN_COMPTES.'?page='.$a.'&action='.$_GET['action'].'&tri='.$_GET['tri'].'">'.$a.'</a> |';
+							echo ' <a href="'.HTTP_ADMIN.FILENAME_ADMIN_COMPTES.'?page='.$a.'&action=&tri=">'.$a.'</a> |';
 						}
 					}
 				else{
-					echo '<meta http-equiv="refresh" content="0; URL='.HTTP_ADMIN.FILENAME_ADMIN_COMPTES.'?page='.$nombreDePages.'&action='.$_GET['action'].'&tri='.$_GET['tri'].'">';
+					echo '<meta http-equiv="refresh" content="0; URL='.HTTP_ADMIN.FILENAME_ADMIN_COMPTES.'?page='.$nombreDePages.'&action=&tri=">';
 				}
 			}
-			echo '<a href="'.HTTP_ADMIN.FILENAME_ADMIN_COMPTES.'?page='.$NombreMembresMaxi.'&action='.$_GET['action'].'&tri='.$_GET['tri'].'"><img src="'.HTTP_IMAGE.'fleche_gauche.png" alt="fleche"/></a></p>';
+			echo '<a href="'.HTTP_ADMIN.FILENAME_ADMIN_COMPTES.'?page='.$NombreMembresMaxi.'&action=&tri="><img src="'.HTTP_IMAGE.'fleche_gauche.png" alt="fleche"/></a></p>';
 		}
 		elseif($_GET['action'] == "moteur-pseudo"){
 			$controle_id = $membre->getChamps("id", TABLE_INSCRIPTION, "pseudo", minuscule($_POST['search_pseudo']));

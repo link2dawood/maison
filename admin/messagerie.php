@@ -2,23 +2,31 @@
 if (isset($_GET['PHPSESSID']) || isset($_COOKIE[session_name()])){
 	session_start() ;
 }
-include('../interface/applications/commun/configuration.php');
-include(INCLUDE_FCTS_UTILE);
-include(INCLUDE_CLASS_ESPACE_MEMBRE);
+include('../interface/applications/commun/fct-utile.php');
+include('../config.php');
+// include(INCLUDE_FCTS_UTILE);
+// include(INCLUDE_CLASS_ESPACE_MEMBRE);
+include('../interface/applications/classes/class.EspaceMembre.php');
 $membre = new EspaceMembre();
-include(INCLUDE_CLASS_METIER);
-$metier = new Metier();
+include('../interface/applications/classes/class.Metier.php');
 
-if($_GET['action'] == "modifier_message"){
-	$messenger = $membre->getMessagerie($_GET['id']);
-	//DESTINATAIRE
-	$destinataire = $membre->getInscription($messenger[4]);
-	//VERIFIER SI MEMBRE ONLINE
-	$ident_dest = $membre->getChamps("identifiant", TABLE_ONLINE, "pseudo", $destinataire->pseudo);
-	$dest_connecter = etatConnecter($ident_dest);
-	$album = $membre->getTable(TABLE_ALBUM_PHOTO,"identifiant",$_GET['id']);
-	$identite = $membre->getTable(TABLE_IDENTITE,"identifiant",$destinataire->id);
+
+require_once('../interface/applications/commun/configuration.php');
+
+if (isset($_GET['action']) && $_GET['action'] == "modifier_message") {
+    $messenger = $membre->getMessagerie($_GET['id']);
+
+    // DESTINATAIRE
+    $destinataire = $membre->getInscription($messenger[4]);
+
+    // VERIFIER SI MEMBRE ONLINE
+    $ident_dest = $membre->getChamps("identifiant", TABLE_ONLINE, "pseudo", $destinataire->pseudo);
+    $dest_connecter = etatConnecter($ident_dest);
+
+    $album = $membre->getTable(TABLE_ALBUM_PHOTO, "identifiant", $_GET['id']);
+    $identite = $membre->getTable(TABLE_IDENTITE, "identifiant", $destinataire->id);
 }
+
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -27,7 +35,7 @@ if($_GET['action'] == "modifier_message"){
     <title>ADMINISTRATION</title>
 	<meta name="description" content=""/>
 	<meta name="keywords" content=""/>
-	<meta http-equiv="Content-Type" content="<?php echo CONFIGURATION_CONTENT; ?>; charset=<?php echo CONFIGURATION_CHARSET; ?>" />
+
     <link href="<?php echo CONFIGURATION_CSS; ?>" media="screen" rel="stylesheet" type="text/css" />
     <link href="<?php echo CONFIGURATION_LIGHTBOX_CSS; ?>" media="screen" rel="stylesheet" type="text/css" />
     <?php echo afficherMetaLangue(LANGUAGE); ?>
@@ -60,12 +68,19 @@ if($_GET['action'] == "modifier_message"){
 				//Lister l'ensemble des messages envoyés
 				$nombreMembresParPage = 8;
 				
-				$TotalMembres = $membre->compterTousLesMessages(TABLE_MESSAGERIE,$_GET['id_compte']);
+$id_compte = $_GET['id_compte'] ?? null;
+
+if ($id_compte !== null) {
+    $TotalMembres = $membre->compterTousLesMessages(TABLE_MESSAGERIE, $id_compte);
+} else {
+    $TotalMembres = 0;
+}
+
 				
 				// NUMERO 2 --> COMPTER LE NOMBRE DE PAGES PAR DEFAUT
 				$nombreDePages  = ceil($TotalMembres / $nombreMembresParPage);
 										
-				$page = defautPage($_GET['page']);
+				$page = defautPage($_GET['page'] ?? '');
 								 
 				// NUMERO 3 --> DEFINIR LE PREMIER MESSAGE
 				$premierMembresAafficher = ($page - 1) * $nombreMembresParPage;
@@ -107,20 +122,35 @@ if($_GET['action'] == "modifier_message"){
 				echo '</table>' .
 						'</div>';
 									
-				echo '<p style="text-align:center;padding-top:7px;"><a href="'.HTTP_ADMIN.FILENAME_MESSAGERIE.'?page='.$NombreMembresMini.'&action='.$_GET['action'].'&type='.$_GET['type'].'&id_compte='.$_GET['id_compte'].'"><img src="'.HTTP_IMAGE.'fleche_droite.png" alt="fleche"/></a>';
+			$action = $_GET['action'] ?? '';
+$type = $_GET['type'] ?? '';
+$id_compte = $_GET['id_compte'] ?? '';
+
+echo '<p style="text-align:center;padding-top:7px;">
+        <a href="' . HTTP_ADMIN . FILENAME_MESSAGERIE . '?page=' . $NombreMembresMini .
+        '&action=' . $action . '&type=' . $type . '&id_compte=' . $id_compte . '">
+            <img src="' . HTTP_IMAGE . 'fleche_droite.png" alt="fleche"/>
+        </a>
+      </p>';
+
+
 				//-----DEFINIR LE NOMBRE DE PAGES--------------------
-				if (isset($page)){
-					if ($page<=$nombreDePages OR $page == 1){
-						$MaxiPagesAffichees = $page + 9;
-							for ($a = $page ; $a <= $MaxiPagesAffichees ; $a++)	{
-								echo ' <a href="'.HTTP_ADMIN.FILENAME_MESSAGERIE.'?page='.$a.'&action='.$_GET['action'].'&type='.$_GET['type'].'&id_compte='.$_GET['id_compte'].'">'.$a.'</a> |';
-							}
-						}
-					else{
-						echo '<meta http-equiv="refresh" content="0; URL='.HTTP_ADMIN.FILENAME_MESSAGERIE.'?page='.$nombreDePages.'&action='.$_GET['action'].'&type='.$_GET['type'].'&id_compte='.$_GET['id_compte'].'">';
-					}
-				}
-				echo '<a href="'.HTTP_ADMIN.FILENAME_MESSAGERIE.'?page='.$NombreMembresMaxi.'&action='.$_GET['action'].'&type='.$_GET['type'].'&id_compte='.$_GET['id_compte'].'"><img src="'.HTTP_IMAGE.'fleche_gauche.png" alt="fleche"/></a></p>';
+if (isset($page)) {
+    if ($page <= $nombreDePages || $page == 1) {
+        $MaxiPagesAffichees = $page + 9;
+        for ($a = $page; $a <= $MaxiPagesAffichees; $a++) {
+            echo ' <a href="' . HTTP_ADMIN . FILENAME_MESSAGERIE . '?page=' . $a .
+                 '&action=' . $action . '&type=' . $type . '&id_compte=' . $id_compte . '">' . $a . '</a> |';
+        }
+    } else {
+        echo '<meta http-equiv="refresh" content="0; URL=' . HTTP_ADMIN . FILENAME_MESSAGERIE .
+             '?page=' . $nombreDePages . '&action=' . $action . '&type=' . $type . '&id_compte=' . $id_compte . '">';
+    }
+}
+
+echo '<a href="' . HTTP_ADMIN . FILENAME_MESSAGERIE . '?page=' . $NombreMembresMaxi .
+     '&action=' . $action . '&type=' . $type . '&id_compte=' . $id_compte . '">' .
+     '<img src="' . HTTP_IMAGE . 'fleche_gauche.gif" alt="fleche"/></a></p>';
 			}
 			elseif($_GET['action'] == "modifier_message"){
 				//Modifier un message en particulier
@@ -223,12 +253,15 @@ if($_GET['action'] == "modifier_message"){
 				//Lister l'ensemble des messages envoyés
 				$nombreMembresParPage = 8;
 				
-				$TotalMembres = $membre->compterTousLesMessages(TABLE_MESSENGER,$_GET['id_compte']);
+				$id_compte = $_GET['id_compte'] ?? null;  // null if not set
+
+$TotalMembres = $membre->compterTousLesMessages(TABLE_MESSENGER, $id_compte);
+
 				
 				// NUMERO 2 --> COMPTER LE NOMBRE DE PAGES PAR DEFAUT
 				$nombreDePages  = ceil($TotalMembres / $nombreMembresParPage);
 										
-				$page = defautPage($_GET['page']);
+				$page = defautPage($_GET['page'] ?? '');
 								 
 				// NUMERO 3 --> DEFINIR LE PREMIER MESSAGE
 				$premierMembresAafficher = ($page - 1) * $nombreMembresParPage;
@@ -269,21 +302,38 @@ if($_GET['action'] == "modifier_message"){
 							
 				echo '</table>' .
 						'</div>';
+						$action = $_GET['action'] ?? '';
+$type = $_GET['type'] ?? '';
+$id_compte = $_GET['id_compte'] ?? '';
+
 									
-				echo '<p style="text-align:center;padding-top:7px;"><a href="'.HTTP_ADMIN.FILENAME_MESSAGERIE.'?page='.$NombreMembresMini.'&action='.$_GET['action'].'&type='.$_GET['type'].'&id_compte='.$_GET['id_compte'].'"><img src="'.HTTP_IMAGE.'fleche_droite.png" alt="fleche"/></a>';
-				//-----DEFINIR LE NOMBRE DE PAGES--------------------
-				if (isset($page)){
-					if ($page<=$nombreDePages OR $page == 1){
-						$MaxiPagesAffichees = $page + 9;
-							for ($a = $page ; $a <= $MaxiPagesAffichees ; $a++)	{
-								echo ' <a href="'.HTTP_ADMIN.FILENAME_MESSAGERIE.'?page='.$a.'&action='.$_GET['action'].'&type='.$_GET['type'].'&id_compte='.$_GET['id_compte'].'">'.$a.'</a> |';
-							}
-						}
-					else{
-						echo '<meta http-equiv="refresh" content="0; URL='.HTTP_ADMIN.FILENAME_MESSAGERIE.'?page='.$nombreDePages.'&action='.$_GET['action'].'&type='.$_GET['type'].'&id_compte='.$_GET['id_compte'].'">';
-					}
-				}
-				echo '<a href="'.HTTP_ADMIN.FILENAME_MESSAGERIE.'?page='.$NombreMembresMaxi.'&action='.$_GET['action'].'&type='.$_GET['type'].'&id_compte='.$_GET['id_compte'].'"><img src="'.HTTP_IMAGE.'fleche_gauche.png" alt="fleche"/></a></p>';
+echo '<p style="text-align:center;padding-top:7px;">
+        <a href="' . HTTP_ADMIN . FILENAME_MESSAGERIE . '?page=' . $NombreMembresMini .
+        '&action=' . $action . '&type=' . $type . '&id_compte=' . $id_compte . '">
+            <img src="' . HTTP_IMAGE . 'fleche_droite.png" alt="fleche"/>
+        </a>
+      </p>';
+
+//-----DEFINIR LE NOMBRE DE PAGES--------------------
+if (isset($page)) {
+    if ($page <= $nombreDePages || $page == 1) {
+        $MaxiPagesAffichees = $page + 9;
+        for ($a = $page; $a <= $MaxiPagesAffichees; $a++) {
+            echo ' <a href="' . HTTP_ADMIN . FILENAME_MESSAGERIE . '?page=' . $a .
+                 '&action=' . $action . '&type=' . $type . '&id_compte=' . $id_compte . '">' . $a . '</a> |';
+        }
+    } else {
+        echo '<meta http-equiv="refresh" content="0; URL=' . HTTP_ADMIN . FILENAME_MESSAGERIE .
+             '?page=' . $nombreDePages . '&action=' . $action . '&type=' . $type . '&id_compte=' . $id_compte . '">';
+    }
+}
+
+			echo '<a href="' . HTTP_ADMIN . FILENAME_MESSAGERIE . 
+     '?page=' . $NombreMembresMaxi . 
+     '&action=' . $action . 
+     '&type=' . $type . 
+     '&id_compte=' . $id_compte . 
+     '"><img src="' . HTTP_IMAGE . 'fleche_gauche.gif" alt="fleche"/></a></p>';
 			}
 			elseif($_GET['action'] == "modifier_message"){
 				//Modifier un message en particulier

@@ -739,15 +739,22 @@ function afficherPaysEspaceMembre($name, $language) {
 		return $array;
 	}
 	
-	function compterMembres($tri_compter){
-		//Instanciation de la classe requete SQL
-		$req = new CompBDD();
-		$result = $req->compterMembresMYSQL($tri_compter);
-		while ($mysql = mysql_fetch_object($result)){
-			$compter = $mysql->compter;
-		}
-		return $compter;
-	}
+function compterMembres($tri_compter) {
+    // Instanciation de la classe requête SQL
+    $req = new CompBDD();
+    $result = $req->compterMembresMYSQL($tri_compter);
+
+    $compter = 0;
+
+    if ($result) {
+        while ($mysql = $result->fetch_object()) {
+            $compter = $mysql->compter;
+        }
+    }
+
+    return $compter;
+}
+
 	
 	function afficherTousLesMembres($premierMembresAafficher, $nombreMembresParPage, $tri){
 		//Instanciation de la classe requete SQL
@@ -831,23 +838,36 @@ function afficherPaysEspaceMembre($name, $language) {
 		return $array;
 	}*/
 	
-	function getDerniersInscrits(){
-		//Instanciation de la classe requete SQL
-		$req = new CompBDD();
-		$result = $req->getDerniersInscritsMYSQL();
-		$mysql = mysql_fetch_object($result);
-		return $mysql;
-	}
+function getDerniersInscrits() {
+    // Instanciation de la classe requête SQL
+    $req = new CompBDD();
+    $result = $req->getDerniersInscritsMYSQL();
+
+    if ($result) {
+        $mysql = $result->fetch_object();
+        return $mysql;
+    }
+
+    return null;
+}
+
 	
-	function compterDerniersInscrits(){
-		//Instanciation de la classe requete SQL
-		$req = new CompBDD();
-		$result = $req->compterDerniersInscritsMYSQL();
-		while ($mysql = mysql_fetch_object($result)){
-			$compter = $mysql->compter;
-		}
-		return $compter;
-	}
+function compterDerniersInscrits() {
+    // Instanciation de la classe requête SQL
+    $req = new CompBDD();
+    $result = $req->compterDerniersInscritsMYSQL();
+
+    $compter = 0;
+
+    if ($result) {
+        while ($row = $result->fetch_object()) {
+            $compter = $row->compter;
+        }
+    }
+
+    return $compter;
+}
+
 	
 	function getConfiguration(){
 		//Instanciation de la classe requete SQL
@@ -1278,20 +1298,26 @@ function getAffichageAleatoire($partie){
 		return $compter;
 	}
 	
-	function compterTousLesMessages($table,$id_compte){
-		//Instanciation de la classe requete SQL
-		$req = new CompBDD();
-		if($id_compte){
-			$result = $req->compterElement($table,"id_expediteur",$id_compte);
-		}
-		else{
-			$result = $req->compterTousLesMessagesMYSQL($table);
-		}
-		while ($mysql = mysql_fetch_object($result)){
-			$compter = $mysql->compter;
-		}
-		return $compter;
-	}
+function compterTousLesMessages($table, $id_compte) {
+    $req = new CompBDD();
+
+    if ($id_compte) {
+        $result = $req->compterElement($table, "id_expediteur", $id_compte);
+    } else {
+        $result = $req->compterTousLesMessagesMYSQL($table);
+    }
+
+    $compter = 0;
+
+    if ($result) {
+        while ($mysql = $result->fetch_object()) {
+            $compter = $mysql->compter;
+        }
+    }
+
+    return $compter;
+}
+
 	
 	function afficherAllMessages($premierMembresAafficher, $nombreMembresParPage, $table,$page,$type,$id_compte){
 		//Instanciation de la classe requete SQL

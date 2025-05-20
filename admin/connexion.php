@@ -10,8 +10,9 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // ? Inclusion des fichiers nécessaires
+include('../interface/applications/commun/fct-utile.php');
+include('../config.php');
 include('../interface/applications/commun/configuration.php');
-include(INCLUDE_FCTS_UTILE);
 include(INCLUDE_CLASS_LOGIN);
 
 $login = new Login();

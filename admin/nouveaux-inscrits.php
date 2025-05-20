@@ -2,12 +2,16 @@
 if (isset($_GET['PHPSESSID']) || isset($_COOKIE[session_name()])){
 	session_start() ;
 }
-include('../interface/applications/commun/configuration.php');
-include(INCLUDE_FCTS_UTILE);
-include(INCLUDE_CLASS_ESPACE_MEMBRE);
+include('../interface/applications/commun/fct-utile.php');
+include('../config.php');
+// include(INCLUDE_FCTS_UTILE);
+// include(INCLUDE_CLASS_ESPACE_MEMBRE);
+include('../interface/applications/classes/class.EspaceMembre.php');
 $membre = new EspaceMembre();
-include(INCLUDE_CLASS_METIER);
-$metier = new Metier();
+include('../interface/applications/classes/class.Metier.php');
+
+
+require_once('../interface/applications/commun/configuration.php');
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -16,7 +20,7 @@ $metier = new Metier();
     <title>ADMINISTRATION</title>
 	<meta name="description" content=""/>
 	<meta name="keywords" content=""/>
-	<meta http-equiv="Content-Type" content="<?php echo CONFIGURATION_CONTENT; ?>; charset=<?php echo CONFIGURATION_CHARSET; ?>" />
+
     <link href="<?php echo CONFIGURATION_CSS; ?>" media="screen" rel="stylesheet" type="text/css" />
     <link href="<?php echo CONFIGURATION_LIGHTBOX_CSS; ?>" media="screen" rel="stylesheet" type="text/css" />
     <?php echo afficherMetaLangue(LANGUAGE); ?>
