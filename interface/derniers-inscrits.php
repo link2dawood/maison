@@ -7,10 +7,10 @@
 	 	echo '<table>' .
 	 		'<tr>';
 					 
-		$monArray = $metier->afficherDerniersInscrits("", 10);
-		foreach($monArray as $cle){
-			echo $cle;
-		}
+		// $monArray = $metier->afficherDerniersInscrits("", 10);
+		// foreach($monArray as $cle){
+		// 	echo $cle;
+		// }
 					 
 		echo	'</tr>' .
 		 		'</table>';

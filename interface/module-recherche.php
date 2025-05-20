@@ -5,13 +5,7 @@
 	<ul>
 		<li><?php echo TEXT_MODULE_RECHERCHE_1; ?></li>
 		<li>
-			<?php
-			//AFFICHER LES OPTIONS DE PAYS
-			$selection = $metier->afficherEchange('type',"");
-			foreach($selection as $cle){
-				echo $cle;
-			}
-			?>
+
 		</li>
 		<li><?php echo TEXT_MODULE_RECHERCHE; ?></li>
 		<li>

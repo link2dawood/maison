@@ -6,7 +6,7 @@
 		<li><?php echo 0; ?></li>
 		<li>
 			<?php
-			//AFFICHER LES OPTIONS DE PAYS
+			
 			$tab_pays = $membre->afficherPaysEspaceMembre('recherche_pays', LANGUAGE);
 			foreach($tab_pays as $cle_pays){
 				echo $cle_pays;
