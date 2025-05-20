@@ -2,16 +2,20 @@
 if (isset($_GET['PHPSESSID']) || isset($_COOKIE[session_name()])){
 	session_start() ;
 }
-include('./interface/applications/commun/configuration.php');
-include(INCLUDE_FCTS_UTILE);
-include(INCLUDE_CLASS_ESPACE_MEMBRE);
+include('./interface/applications/commun/fct-utile.php');
+include('./config.php');
+// include(INCLUDE_FCTS_UTILE);
+// include(INCLUDE_CLASS_ESPACE_MEMBRE);
+include('./interface/applications/classes/class.EspaceMembre.php');
 $membre = new EspaceMembre();
-include(INCLUDE_CLASS_METIER);
+include('./interface/applications/classes/class.Metier.php');
+
+
+require_once('./interface/applications/commun/configuration.php');
 $metier = new Metier();
 include(INCLUDE_CLASS_RECHERCHE_AVANCEE);
 $rech = new RechercheAvancee();
 
-$metier->controleConnexionMetier(time(), $_SESSION['id_client'], $_SESSION['pseudo_client']);
 
 //TRAITEMENT DU SUPPORT DE LANGUE
 includeLanguage(RACINE, LANGUAGE, FILENAME_PLAN_SITE);
@@ -22,7 +26,7 @@ includeLanguage(RACINE, LANGUAGE, FILENAME_PLAN_SITE);
     <title><?php echo TEXTE_50; ?></title>
 	<meta name="description" content="<?php echo TEXTE_51; ?>"/>
 	<meta name="keywords" content="<?php echo TEXTE_22; ?>"/>
-	<meta http-equiv="Content-Type" content="<?php echo CONFIGURATION_CONTENT; ?>; charset=<?php echo CONFIGURATION_CHARSET; ?>" />
+
     <link href="<?php echo CONFIGURATION_CSS; ?>" media="screen" rel="stylesheet" type="text/css" />
     <link href="<?php echo CONFIGURATION_LIGHTBOX_CSS; ?>" media="screen" rel="stylesheet" type="text/css" />
     <?php echo afficherMetaLangue(LANGUAGE); ?>
@@ -42,11 +46,11 @@ includeLanguage(RACINE, LANGUAGE, FILENAME_PLAN_SITE);
 					<li><?php echo PHRASE_LOGO; ?></li>
 				</ul>
 			</div>
-			<?php echo afficherLogin($_SESSION['pseudo_client'], HTTP_SERVEUR); ?>
+			<?php echo afficherLogin($_SESSION['pseudo_client'] ?? '', HTTP_SERVEUR); ?>
 			<h1><?php echo TEXTE_50; ?></h1>
 		</div>
 		<!-- MENU -->
-		<div id="menu"><?php getMenu($_SESSION['pseudo_client']); ?></div>
+		<div id="menu"><?php getMenu($_SESSION['pseudo_client'] ?? ''); ?></div>
 		<!-- PARTIE ADSENSE -->
 		<div id="adsense"><?php include(INCLUDE_ADSENSE); ?></div>
 		<!-- RECHERCHE PAR CONNEXION -->
@@ -65,16 +69,7 @@ includeLanguage(RACINE, LANGUAGE, FILENAME_PLAN_SITE);
 					<td class="titre_tchat">
 						<div class="bord_gauche"></div>
 						<div class="corps_top_tchat">
-						<?php
-						if(empty($_SESSION['pseudo_client'])){
-							//ON NE FAIT RIEN...
-						}
-						else{
-							$msg_envoyes = $membre->compterMessagesDuMembreCommeExpediteur(TABLE_MESSENGER, $_SESSION['id_client'], $_SESSION['pseudo_client'], "non");
-							$recus = $membre->compterMessagesDuMembreCommeDestinataire(TABLE_MESSENGER, $_SESSION['id_client'], $_SESSION['pseudo_client'], "non");
-						}
-						echo afficherCompteurMessages($_SESSION['pseudo_client'], $recus, $msg_envoyes);
-						?></div>
+                        </div>
 						<div class="bord_droit"></div>
 					</td>
 				</tr>
@@ -98,37 +93,15 @@ includeLanguage(RACINE, LANGUAGE, FILENAME_PLAN_SITE);
 								$pays = 6;
 								
 								
-								if($rech->compterTypeEnLigne($pays,$appartement) != 0){
-									echo '<li style="padding-top:10px;"><img src="'.HTTP_IMAGE.'fleche_gauche.png" alt="'.ATTRIBUT_ALT.'" /> <a href="'.HTTP_SERVEUR.'departements-allemagne-'.$appartement.'.php">'.TEXTE_42.' '.TEXTE_22.'</a></li>';
-								}
-								
-								if($rech->compterTypeEnLigne($pays,$chambre) != 0){
-									echo '<li style="padding-top:10px;"><img src="'.HTTP_IMAGE.'fleche_gauche.png" alt="'.ATTRIBUT_ALT.'" /> <a href="'.HTTP_SERVEUR.'departements-allemagne-'.$chambre.'.php">'.TEXTE_43.' '.TEXTE_22.'</a></li>';
-								}
-								
-								if($rech->compterTypeEnLigne($pays,$maison) != 0){
-									echo '<li style="padding-top:10px;"><img src="'.HTTP_IMAGE.'fleche_gauche.png" alt="'.ATTRIBUT_ALT.'" /> <a href="'.HTTP_SERVEUR.'departements-allemagne-'.$maison.'.php">'.TEXTE_44.' '.TEXTE_22.'</a></li>';
-								}
-								
-								if($rech->compterTypeEnLigne($pays,$villa) != 0){
-									echo '<li style="padding-top:10px;"><img src="'.HTTP_IMAGE.'fleche_gauche.png" alt="'.ATTRIBUT_ALT.'" /> <a href="'.HTTP_SERVEUR.'departements-allemagne-'.$villa.'.php">'.TEXTE_45.' '.TEXTE_22.'</a></li>';
-								}
-								
-								if($rech->compterTypeEnLigne($pays,$chateau) != 0){
-									echo '<li style="padding-top:10px;"><img src="'.HTTP_IMAGE.'fleche_gauche.png" alt="'.ATTRIBUT_ALT.'" /> <a href="'.HTTP_SERVEUR.'departements-allemagne-'.$chateau.'.php">'.TEXTE_46.' '.TEXTE_22.'</a></li>';
-								}
-								
-								if($rech->compterTypeEnLigne($pays,$manoir) != 0){
-									echo '<li style="padding-top:10px;"><img src="'.HTTP_IMAGE.'fleche_gauche.png" alt="'.ATTRIBUT_ALT.'" /> <a href="'.HTTP_SERVEUR.'departements-allemagne-'.$manoir.'.php">'.TEXTE_47.' '.TEXTE_22.'</a></li>';
-								}
-								
-								if($rech->compterTypeEnLigne($pays,$hebergement) != 0){
-									echo '<li style="padding-top:10px;"><img src="'.HTTP_IMAGE.'fleche_gauche.png" alt="'.ATTRIBUT_ALT.'" /> <a href="'.HTTP_SERVEUR.'departements-allemagne-'.$hebergement.'.php">'.TEXTE_48.' '.TEXTE_22.'</a></li>';
-								}
-								
-								if($rech->compterTypeEnLigne($pays,$domicile) != 0){
-									echo '<li style="padding-top:10px;"><img src="'.HTTP_IMAGE.'fleche_gauche.png" alt="'.ATTRIBUT_ALT.'" /> <a href="'.HTTP_SERVEUR.'departements-allemagne-'.$domicile.'.php">'.TEXTE_49.' '.TEXTE_22.'</a></li>';
-								}
+
+									echo '<li style="padding-top:10px;"><img src="'.HTTP_IMAGE.'fleche_gauche.gif" alt="'.ATTRIBUT_ALT.'" /> <a href="'.HTTP_SERVEUR.'departements-allemagne-'.$appartement.'.php">'.TEXTE_42.' '.TEXTE_22.'</a></li>';
+									echo '<li style="padding-top:10px;"><img src="'.HTTP_IMAGE.'fleche_gauche.gif" alt="'.ATTRIBUT_ALT.'" /> <a href="'.HTTP_SERVEUR.'departements-allemagne-'.$chambre.'.php">'.TEXTE_43.' '.TEXTE_22.'</a></li>';
+									echo '<li style="padding-top:10px;"><img src="'.HTTP_IMAGE.'fleche_gauche.gif" alt="'.ATTRIBUT_ALT.'" /> <a href="'.HTTP_SERVEUR.'departements-allemagne-'.$maison.'.php">'.TEXTE_44.' '.TEXTE_22.'</a></li>';
+									echo '<li style="padding-top:10px;"><img src="'.HTTP_IMAGE.'fleche_gauche.gif" alt="'.ATTRIBUT_ALT.'" /> <a href="'.HTTP_SERVEUR.'departements-allemagne-'.$villa.'.php">'.TEXTE_45.' '.TEXTE_22.'</a></li>';
+									echo '<li style="padding-top:10px;"><img src="'.HTTP_IMAGE.'fleche_gauche.gif" alt="'.ATTRIBUT_ALT.'" /> <a href="'.HTTP_SERVEUR.'departements-allemagne-'.$chateau.'.php">'.TEXTE_46.' '.TEXTE_22.'</a></li>';
+									echo '<li style="padding-top:10px;"><img src="'.HTTP_IMAGE.'fleche_gauche.gif" alt="'.ATTRIBUT_ALT.'" /> <a href="'.HTTP_SERVEUR.'departements-allemagne-'.$manoir.'.php">'.TEXTE_47.' '.TEXTE_22.'</a></li>';
+									echo '<li style="padding-top:10px;"><img src="'.HTTP_IMAGE.'fleche_gauche.gif" alt="'.ATTRIBUT_ALT.'" /> <a href="'.HTTP_SERVEUR.'departements-allemagne-'.$hebergement.'.php">'.TEXTE_48.' '.TEXTE_22.'</a></li>';
+									echo '<li style="padding-top:10px;"><img src="'.HTTP_IMAGE.'fleche_gauche.gif" alt="'.ATTRIBUT_ALT.'" /> <a href="'.HTTP_SERVEUR.'departements-allemagne-'.$domicile.'.php">'.TEXTE_49.' '.TEXTE_22.'</a></li>';
 								?>
 								</ul>
 							</div>
