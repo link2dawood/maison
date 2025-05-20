@@ -2,14 +2,17 @@
 if (isset($_GET['PHPSESSID']) || isset($_COOKIE[session_name()])){
 	session_start() ;
 }
-include('./interface/applications/commun/configuration.php');
-include(INCLUDE_FCTS_UTILE);
-include(INCLUDE_CLASS_ESPACE_MEMBRE);
+include('./interface/applications/commun/fct-utile.php');
+include('./config.php');
+// include(INCLUDE_FCTS_UTILE);
+// include(INCLUDE_CLASS_ESPACE_MEMBRE);
+include('./interface/applications/classes/class.EspaceMembre.php');
 $membre = new EspaceMembre();
-include(INCLUDE_CLASS_METIER);
-$metier = new Metier();
+include('./interface/applications/classes/class.Metier.php');
 
-$metier->controleConnexionMetier(time(), $_SESSION['id_client'], $_SESSION['pseudo_client']);
+
+require_once('./interface/applications/commun/configuration.php');
+$metier = new Metier();
 
 //TRAITEMENT DU SUPPORT DE LANGUE
 includeLanguage(RACINE, LANGUAGE, FILENAME_PLAN_SITE);
@@ -20,7 +23,7 @@ includeLanguage(RACINE, LANGUAGE, FILENAME_PLAN_SITE);
     <title><?php echo TEXTE_25; ?></title>
 	<meta name="description" content="<?php echo TEXTE_26; ?>"/>
 	<meta name="keywords" content="<?php echo TEXTE_27; ?>"/>
-	<meta http-equiv="Content-Type" content="<?php echo CONFIGURATION_CONTENT; ?>; charset=<?php echo CONFIGURATION_CHARSET; ?>" />
+
     <link href="<?php echo CONFIGURATION_CSS; ?>" media="screen" rel="stylesheet" type="text/css" />
     <link href="<?php echo CONFIGURATION_LIGHTBOX_CSS; ?>" media="screen" rel="stylesheet" type="text/css" />
     <?php echo afficherMetaLangue(LANGUAGE); ?>
@@ -40,11 +43,11 @@ includeLanguage(RACINE, LANGUAGE, FILENAME_PLAN_SITE);
 					<li><?php echo PHRASE_LOGO; ?></li>
 				</ul>
 			</div>
-			<?php echo afficherLogin($_SESSION['pseudo_client'], HTTP_SERVEUR); ?>
+		
 			<h1><?php echo TEXTE_25; ?></h1>
 		</div>
 		<!-- MENU -->
-		<div id="menu"><?php getMenu($_SESSION['pseudo_client']); ?></div>
+		<div id="menu"><?php getMenu($_SESSION['pseudo_client'] ?? ''); ?></div>
 		<!-- PARTIE ADSENSE -->
 		<div id="adsense"><?php include(INCLUDE_ADSENSE); ?></div>
 		<!-- RECHERCHE PAR CONNEXION -->
@@ -63,16 +66,7 @@ includeLanguage(RACINE, LANGUAGE, FILENAME_PLAN_SITE);
 					<td class="titre_tchat">
 						<div class="bord_gauche"></div>
 						<div class="corps_top_tchat">
-						<?php
-						if(empty($_SESSION['pseudo_client'])){
-							//ON NE FAIT RIEN...
-						}
-						else{
-							$msg_envoyes = $membre->compterMessagesDuMembreCommeExpediteur(TABLE_MESSENGER, $_SESSION['id_client'], $_SESSION['pseudo_client'], "non");
-							$recus = $membre->compterMessagesDuMembreCommeDestinataire(TABLE_MESSENGER, $_SESSION['id_client'], $_SESSION['pseudo_client'], "non");
-						}
-						echo afficherCompteurMessages($_SESSION['pseudo_client'], $recus, $msg_envoyes);
-						?></div>
+                  </div>
 						<div class="bord_droit"></div>
 					</td>
 				</tr>
@@ -82,12 +76,12 @@ includeLanguage(RACINE, LANGUAGE, FILENAME_PLAN_SITE);
 						 <div class="developpement">
 						 	<div>
 								<ul>
-									<li style="padding-top:10px;"><img src="<?php echo HTTP_IMAGE; ?>fleche_gauche.png" alt="<?php echo ATTRIBUT_ALT; ?>" /> <a href="<?php echo HTTP_SERVEUR.FILENAME_PLAN_DEPT_FRANCE; ?>" title="<?php echo TEXTE_13; ?>"><?php echo TEXTE_14; ?></a></li>
-									<li style="padding-top:10px;"><img src="<?php echo HTTP_IMAGE; ?>fleche_gauche.png" alt="<?php echo ATTRIBUT_ALT; ?>" /> <a href="<?php echo HTTP_SERVEUR.FILENAME_PLAN_DEPT_GUYANE_FR; ?>" title="<?php echo TEXTE_15; ?>"><?php echo TEXTE_16; ?></a></li>
-									<li style="padding-top:10px;"><img src="<?php echo HTTP_IMAGE; ?>fleche_gauche.png" alt="<?php echo ATTRIBUT_ALT; ?>" /> <a href="<?php echo HTTP_SERVEUR.FILENAME_PLAN_DEPT_MAROC; ?>" title="<?php echo TEXTE_17; ?>"><?php echo TEXTE_18; ?></a></li>
-									<li style="padding-top:10px;"><img src="<?php echo HTTP_IMAGE; ?>fleche_gauche.png" alt="<?php echo ATTRIBUT_ALT; ?>" /> <a href="<?php echo HTTP_SERVEUR.FILENAME_PLAN_DEPT_ALGERIE; ?>" title="<?php echo TEXTE_19; ?>"><?php echo TEXTE_20; ?></a></li>
-									<li style="padding-top:10px;"><img src="<?php echo HTTP_IMAGE; ?>fleche_gauche.png" alt="<?php echo ATTRIBUT_ALT; ?>" /> <a href="<?php echo HTTP_SERVEUR.FILENAME_PLAN_DEPT_ALLEMAGNE; ?>" title="<?php echo TEXTE_21; ?>"><?php echo TEXTE_22; ?></a></li>
-									<li style="padding-top:10px;"><img src="<?php echo HTTP_IMAGE; ?>fleche_gauche.png" alt="<?php echo ATTRIBUT_ALT; ?>" /> <a href="<?php echo HTTP_SERVEUR.FILENAME_PLAN_DEPT_GUADELOUPE; ?>" title="<?php echo TEXTE_23; ?>"><?php echo TEXTE_24; ?></a></li>
+									<li style="padding-top:10px;"><img src="<?php echo HTTP_IMAGE; ?>fleche_gauche.gif" alt="<?php echo ATTRIBUT_ALT; ?>" /> <a href="<?php echo HTTP_SERVEUR.FILENAME_PLAN_DEPT_FRANCE; ?>" title="<?php echo TEXTE_13; ?>"><?php echo TEXTE_14; ?></a></li>
+									<li style="padding-top:10px;"><img src="<?php echo HTTP_IMAGE; ?>fleche_gauche.gif" alt="<?php echo ATTRIBUT_ALT; ?>" /> <a href="<?php echo HTTP_SERVEUR.FILENAME_PLAN_DEPT_GUYANE_FR; ?>" title="<?php echo TEXTE_15; ?>"><?php echo TEXTE_16; ?></a></li>
+									<li style="padding-top:10px;"><img src="<?php echo HTTP_IMAGE; ?>fleche_gauche.gif" alt="<?php echo ATTRIBUT_ALT; ?>" /> <a href="<?php echo HTTP_SERVEUR.FILENAME_PLAN_DEPT_MAROC; ?>" title="<?php echo TEXTE_17; ?>"><?php echo TEXTE_18; ?></a></li>
+									<li style="padding-top:10px;"><img src="<?php echo HTTP_IMAGE; ?>fleche_gauche.gif" alt="<?php echo ATTRIBUT_ALT; ?>" /> <a href="<?php echo HTTP_SERVEUR.FILENAME_PLAN_DEPT_ALGERIE; ?>" title="<?php echo TEXTE_19; ?>"><?php echo TEXTE_20; ?></a></li>
+									<li style="padding-top:10px;"><img src="<?php echo HTTP_IMAGE; ?>fleche_gauche.gif" alt="<?php echo ATTRIBUT_ALT; ?>" /> <a href="<?php echo HTTP_SERVEUR.FILENAME_PLAN_DEPT_ALLEMAGNE; ?>" title="<?php echo TEXTE_21; ?>"><?php echo TEXTE_22; ?></a></li>
+									<li style="padding-top:10px;"><img src="<?php echo HTTP_IMAGE; ?>fleche_gauche.gif" alt="<?php echo ATTRIBUT_ALT; ?>" /> <a href="<?php echo HTTP_SERVEUR.FILENAME_PLAN_DEPT_GUADELOUPE; ?>" title="<?php echo TEXTE_23; ?>"><?php echo TEXTE_24; ?></a></li>
 								</ul>
 							</div>
 						 </div>
