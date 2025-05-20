@@ -111,27 +111,23 @@ class RechercheAvancee{
 		}
 	}
 	
-	function compterTypeEnLigne($id_pays,$type_echange){
-		//Instanciation de la classe requete SQL
-		$req = new CompBDD();
-		if($type_echange > 0 AND $type_echange <= 6){
-			//ECHANGE MAISON
-			$table = TABLE_LISTING_ECHANGE_MAISON;
-		}
-		elseif($type_echange >= 7 AND $type_echange <= 8){
-			//COUCHSURFING
-			$table = TABLE_LISTING_COUCHSURFING;
-		}
-		else{
-			//ERREUR
-			$table = '';
-		}
-		$requete = "WHERE `type_annonce`='".$table."' AND `id_annonce`!='' AND `en_ligne`='ok' AND `id` IN (SELECT `identifiant` FROM `".TABLE_IDENTITE."` WHERE `type_echange`='".$type_echange."' AND `pays`='".$id_pays."')";
-		$result = $req->compterMembresOfflineMYSQL($requete);
-		while ($mysql = mysql_fetch_object($result)){
-			$compter = $mysql->compter;
-		}
-		return $compter;
-	}
+public function compterMembresOfflineMYSQL(string $whereClause, array $params): array
+{
+    $sql = "SELECT COUNT(*) AS compter FROM your_table " . $whereClause;
+
+    $stmt = $this->mysqli->prepare($sql);
+    if (!$stmt) {
+        throw new Exception("Prepare failed: " . $this->mysqli->error);
+    }
+
+    $stmt->bind_param("sii", $params[0], $params[1], $params[2]); // s = string, i = integer
+
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->fetch_assoc();
+}
+
+
+
 }
 ?>
